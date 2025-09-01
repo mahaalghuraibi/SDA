@@ -22,3 +22,9 @@ GitHub is essential for collaboration, enabling developers worldwide to create r
 Git is a CLI tool that provides us with local repositories for tracking changes to our code on our computers. 💻
 
 GitHub is an online web service that provides us with remote repositories stored in the cloud.  We can use it to back up and share the Git repositories on our own computers. ☁️
+
+## Sites That Use Git
+• BitBucket
+• GitLab
+• AWS CodeCommit
+• GitHub (most well known)

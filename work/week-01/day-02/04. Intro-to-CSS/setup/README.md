@@ -3,7 +3,7 @@
   <span class="subhead">Setup</span>
 </h1>
 
-Open your Terminal application and navigate to your `SEB-SDA-Ghazal/internal/work/week-01/day-03/02. Intro-to-CSS` directory:
+Open your Terminal application and navigate to your `SDA-SIRAJ/work/week-01/day-02/04. Intro-to-CSS` directory:
 
 Make a new directory called `intro-to-css`, then enter this directory:
 

@@ -11,7 +11,7 @@ HyperText Markup Language or HTML is the standard markup language for documents 
 
 HyperText? Markup? HyperText is text displayed on a digital device with references to other text that can be navigated to using hyperlinks (commonly called links). Markup provides both structure and semantic meaning to content. For example, an `<h1>` indicates the main heading for a document, while `<p>` represents a paragraph of text.
 
-In other words, HTML is a language for writing structured documents that link to one another.
+**In other words, HTML is a language for writing structured documents that link to one another.**
 
 When a web browser makes a request, it receives HTML documents from a web server and renders those documents into web pages.
 

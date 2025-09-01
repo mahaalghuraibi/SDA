@@ -13,7 +13,6 @@ Whether it's for a novice exploring web development or a professional seeking to
 
 | Lesson                                                            | Video Time |                            Video                             | Skills                                                                                        |
 | ----------------------------------------------------------------- | :--------: | :----------------------------------------------------------: | --------------------------------------------------------------------------------------------- |
-| [Setup](./setup/README.md)                                        |   3 min    | [link](https://generalassembly.wistia.com/medias/96xus6b3st) | Setting up the development environment                                                        |
 | [Concepts](./concepts/README.md)                                  |   2 min    | [link](https://generalassembly.wistia.com/medias/bnv483wcpn) | Introduction to HTML's role, elements, and basic syntax                                       |
 | [Comments and Elements](./comments-and-elements/README.md)        |   6 min    | [link](https://generalassembly.wistia.com/medias/c6fpr8k8di) | Adding comments to HTML and understanding the role of elements                                |
 | [Element Attributes](./element-attributes/README.md)              |   5 min    | [link](https://generalassembly.wistia.com/medias/cs6qkqsg5g) | Use of attributes to modify elements, including 'id', 'class', and inline styles              |

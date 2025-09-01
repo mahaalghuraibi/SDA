@@ -88,12 +88,12 @@ Once your files are pushed up into your fork, others will be able to visit your 
 At the start of each unit, that unit's lectures will be added and/or updated in the classroom repository. To bring those updates over into your fork of the repository, you can run the following commands:
 
 RUN THIS ONLY ONCE:
-```
-git remote add upstream https://git.generalassemb.ly/ENT-SDA-SEB-216-IP/SDA-Ghazal
+```bash
+git remote add upstream https://git.generalassemb.ly/ENT-SDA-SEB-216-IP/SDA-SIRAJ.git
 ```
 
 RUN THIS EACH WEEK:
-```
+```bash
 git pull upstream main
 git push origin main
 ```
