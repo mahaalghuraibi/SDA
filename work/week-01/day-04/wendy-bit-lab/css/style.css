@@ -1,0 +1,178 @@
+body {
+    background-color: rgb(79, 74, 74);
+    border: 2px solid rgb(0, 0, 0);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#header {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    justify-self: center;
+
+}
+
+p {
+    justify-self: center;
+}
+
+h2 {
+    justify-self: start;
+
+
+}
+
+hr {
+    border: none;
+    height: 2px;
+    background-color: gray;
+    width: 100%;
+}
+
+::content {
+    font-size: 22px;
+}
+
+#text {
+    display: flex;
+}
+
+img {
+    height: 20vh;
+    width: 20vh;
+    border-radius: 8px;
+}
+
+#text {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    flex-direction: column; 
+}
+
+#text img {
+    float: right;
+    margin-right: 15px;
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border: 4px solid #5a5a5a;
+    border-radius: 4px;
+}
+
+
+.about {
+    display: flex;
+    /* justify-content: space-between; */
+    /* align-items: flex-start; */
+    gap: 20px;
+
+}
+
+hr2 {
+    border: none;
+    height: 2px;
+    background-color: gray;
+    width: 1000px;
+}
+
+a {
+    color: lightgreen
+}
+
+p {
+    color: white;
+}
+
+h3 {
+    color: white;
+}
+
+h1 {
+    color: white;
+}
+
+footer {
+    text-align: center;
+    margin-top: auto;
+    padding: 20px 0;
+}
+
+footer a {
+    text-decoration: none;
+    color: lightgreen;
+    font-weight: bold;
+    margin: 0 8px;
+}
+
+.resume-page h1 {
+    color: white;
+    font-size: 32px;
+   justify-self: center;
+   text-align: center;
+}
+#links-container {
+    text-align: center;
+}
+h2 {
+  text-align: right;
+}
+
+.experience-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.experience-item {
+  margin: 16px 0 22px;
+  position: relative;
+  padding-left: 26px;  
+}
+
+.experience-item::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: #cfcfcf;
+  position: absolute;
+  left: 0;
+  top: 8px;
+}
+.experience-list {
+  text-align: left;
+  list-style-position: outside; 
+}
+
+.experience-list li {
+  margin-bottom: 16px;
+}
+ul {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start;
+}
+
+ul li {
+  margin-bottom: 10px; 
+  
+  }
+ p{
+    color: white;
+ }
+li{
+    color: white;
+}
+h4{
+    color: white;
+}
+
+
+
