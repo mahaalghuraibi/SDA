@@ -4,6 +4,12 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    padding: 20px 40px; /* المسافة الداخلية */
+    border: 2px solid gray; /* حدود باللون الرمادي */
+    padding: 20px 40px;
+    border: 2px solid gray; /* هنا صار اللون رمادي */
+
+
 }
 
 #header {
