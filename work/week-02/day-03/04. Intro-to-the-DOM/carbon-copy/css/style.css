@@ -1,0 +1,124 @@
+/***** TALE OF CONTENTS ******/
+/* NAV BAR */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: aliceblue;
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 7.5px;
+}
+
+#logo {
+    height: 40px;
+    width: 40px;
+}
+
+#links-container {
+    display: flex;
+}
+
+/******* NAV BAR *******/
+.nav-links {
+    display: flex;
+    align-items: center;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    margin: 5px;
+    background-color: lightgrey;
+    border-radius: 5px;
+}
+
+#hero-container {
+    max-height: 300px;
+    overflow: hidden;
+}
+
+img[alt="hero"] {
+    width: 100vw;
+}
+
+#card-container {
+    display: flex;
+    justify-content: space-around;
+    background-color: bisque;
+}
+
+.card {
+    padding: 2px 2px 2px 20px;
+    border: 1px dotted black;
+    background-color: aqua;
+}
+
+#movies-container {
+    background-color: cadetblue;
+    padding: 15px;
+}
+
+#header {
+    width: 50%;
+    background-color: aqua;
+    text-align: center;
+    margin: 0 auto 15px auto;
+    /* margin-bottom: 20px; */
+}
+
+#movies-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.movie-card {
+    border: 1px dotted red;
+    /* width: 20%; */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.movie-card img,
+p {
+    width: 100%; /* fills the container's width */
+    height: auto; /* keeps aspect ratio */
+    display: block;
+    /* border-radius: 8px; */
+}
+
+.movie-card p {
+    max-height: 50px;
+    overflow: scroll;
+    margin-bottom: 3px;
+}
+
+#contact-container {
+    padding: 0px 10px 50px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#contact-container > div {
+    width: 50%;
+
+}
+
+#contact-container div:nth-child(2) button {
+    color: red;
+    width: 20%;
+    height: 20%;
+    border-radius: 50%;
+}
+
+#contact-container div:nth-child(3) {
+    text-align: center;
+}

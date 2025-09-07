@@ -18,8 +18,7 @@ This lab is a **DELIVERABLE**.
 
 ## Setup
 
-- Create an HTML/CSS/JS repl
-- Name the repl "Flexbox/Grid Lab"
+- Create your `index.html` and `./css/style.css` files / folders
 
 ## Hints
 
@@ -54,4 +53,7 @@ As a bonus, reproduce both the vertical and horizontal versions!
 
 ## Deliverable
 
-This lab is **a DELIVERABLE** - be sure to submit the link to your repl in Google Classroom prior to the due date.
+This lab is **a DELIVERABLE** - be sure to push your code!
+- git add -A
+- git commit -m "my container homework"
+- git push
