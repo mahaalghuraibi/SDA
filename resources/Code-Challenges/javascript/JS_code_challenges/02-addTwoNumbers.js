@@ -12,4 +12,13 @@ addTwoNumbers('Hello', 5) //=> NaN
 -----------------------------------------------------------------*/
 // Your solution for 02-addTwoNumbers here:
 
-export function addTwoNumbers() {}
+export function addTwoNumbers(num1 ,num2) {
+if(typeof num1 != "number" || typeof num2 != "number"){
+    return NaN ;
+}
+return num1 + num2 ;
+
+}
+
+console.log(addTwoNumbers(8,9));
+console.log(addTwoNumbers("hello",9));
