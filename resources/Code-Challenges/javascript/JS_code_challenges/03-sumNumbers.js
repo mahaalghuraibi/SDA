@@ -12,4 +12,20 @@ sumNumbers([]) //=> 0
 -----------------------------------------------------------------*/
 // Your solution for 03-sumNumbers here:
 
-export function sumNumbers() {}
+export function sumNumbers(numbers) {
+    // مجموع الصفر
+    let sum = 0;
+    
+    // المرور على كل عنصر 
+    for (let i = 0; i < numbers.length; i++) {
+        // كل الارقام نضضيف sum
+        sum = sum + numbers[i];
+    }
+    
+    // نرجع المجموع
+    return sum;
+}
+console.log(sumNumbers([10]));        
+console.log(sumNumbers([5, 10]));    
+console.log(sumNumbers([2, 10, -5])); 
+console.log(sumNumbers([]));          

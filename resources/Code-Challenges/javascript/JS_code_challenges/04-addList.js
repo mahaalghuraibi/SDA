@@ -13,4 +13,21 @@ Hint:  Check out the Further Study section of the JS Functions lesson regarding 
 -----------------------------------------------------------------*/
 // Your solution for 04-addList here:
 
-export function addList() {}
+
+export function addList(...numbers) {
+  // مجموع الصفر كبداية
+  let sum = 0;
+
+  // المرور على كل رقم من الأرقام المدخلة
+  for (let i = 0; i < numbers.length; i++) {
+    // نضيف الرقم الحالي للمجموع
+    sum = sum + numbers[i];
+  }
+
+  // نرجع المجموع (إذا ما فيه أرقام يرجع 0)
+  return sum;
+}
+console.log(addList(1));            
+console.log(addList(1, 50, 1.23));  
+console.log(addList(7, -12));       
+console.log(addList());             
