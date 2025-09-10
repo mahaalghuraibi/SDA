@@ -1,15 +1,9 @@
-const prompt = require('prompt-sync')();
-
-function peanutButterAndJellySandwhich() {
-    // ALL OF YOUR CODE WILL BE IN HERE
-    // WRITE OUT YOUR PSEUDOCODE -> THEN TURN IT INTO **REAL** CODE
 
 
-}
 
 
-peanutButterAndJellySandwhich()
 
+<<<<<<< HEAD
 
 function peanutButterAndJellySandwhich() 
     // - STORE NUMBER OF SANDWICHES
@@ -53,3 +47,5 @@ PSEUDOCODE:
 - DISPLAY SANDWICH / ENJOY
 */
 /* PSEUDOCODE HERE */
+=======
+>>>>>>> 9c9eacc6493198c5b3123c52e5db0279d55cce3e

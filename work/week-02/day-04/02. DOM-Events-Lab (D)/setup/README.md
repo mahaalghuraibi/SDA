@@ -5,43 +5,7 @@
 
 ## Setup
 
-Open your Terminal application and navigate to your **`~/code/ga/labs`** directory:
-
-```bash
-cd ~/code/ga/labs
-```
-
-Navigate to [GitHub](https://github.com/) and create a new repository named **dom-events-lab**.
-
-- Make sure the repo is set to `public`
-- You do not need a `README.md`
-- You do not need a `.gitignore`
-
-Using the `Quick Setup` option, clone your newly created repo into your `~/code/ga/labs` directory with the `git clone` command:
-
-```bash
-git clone https://github.com/<your-username>/dom-events-lab.git
-```
-
-> Note: In the link above, where it says `<your-username>`, you should see the username from your GitHub account.
-
-Next, `cd` into your new cloned directory, `dom-events-lab`:
-
-```bash
-cd dom-events-lab
-```
-
-Then, create a **`app.js`**, a **`index.html`**, and a **`style.css`** file. These files will hold your work for this lab:
-
-```bash
-touch app.js index.html style.css
-```
-
-With the files created, open the contents of the directory in VS Code:
-
-```bash
-code .
-```
+In the current `02. DOM-Events-Lab (D)` folder you will create a standard `html`, `css`, `js` file using the content below as starter code.
 
 ### HTML
 
