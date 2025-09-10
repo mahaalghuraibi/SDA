@@ -13,4 +13,13 @@ computeRemainder(10.5, 3) //=> 1.5
 -----------------------------------------------------------------*/
 // Your solution for 05-computeRemainder:
 
-export function computeRemainder() {}
+export function computeRemainder(dividend, divisor) {
+  if (divisor === 0) return Infinity;
+
+  const q = Math.trunc(dividend / divisor);    
+  const remainder = dividend - (divisor * q);  
+  return remainder;
+}
+
+console.log(computeRemainder(9, 2)); 
+console.log(computeRemainder(-8, 2)); 

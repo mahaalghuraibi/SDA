@@ -10,6 +10,7 @@ class Profile {
     return this.firstName + " " + this.lastName;
   }
 }
+
 const myName = new Profile ("maha" , "alghuraibi");
 console.log(myName.fullName());
 
