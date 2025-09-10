@@ -10,4 +10,12 @@ removeEnds('a'); //=> "" (empty string)
 -----------------------------------------------------------------*/
 // Your solution for 08-removeEnds here:
 
-export function removeEnds() {}
+export function removeEnds(string) {
+  if (string.length < 3) {
+    return "";
+  }
+
+  return string.slice(1, string.length - 1);
+}
+console.log(removeEnds("maha")); 
+console.log(removeEnds("a"));          
