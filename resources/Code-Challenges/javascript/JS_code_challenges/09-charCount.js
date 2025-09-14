@@ -12,4 +12,18 @@ charCount('Today is fantastic!') //=> { T: 1, o: 1, d: 1, a: 3, y: 1, ' ': 2, i:
 -----------------------------------------------------------------*/
 // Your solution for 09-charCount here:
 
-export function charCount() {}
+export function charCount(str) {
+  const result = {};
+
+  for (let char of str) {
+    if (result[char]) {
+      result[char]++;
+    } 
+    else {
+      result[char] = 1;
+    }
+  }
+
+  return result;
+}
+console.log(charCount("hello"));

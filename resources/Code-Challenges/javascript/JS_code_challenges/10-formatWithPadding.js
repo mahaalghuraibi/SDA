@@ -15,4 +15,13 @@ formatWithPadding(1234, '*', 3); //=> "1234"
 -----------------------------------------------------------------*/
 // Your solution for 10-formatWithPadding here:
 
-export function formatWithPadding() {}
+export function formatWithPadding(num, padChar, length) {
+  const strNum = String(num);
+  if (strNum.length >= length) {
+    return strNum;
+  }
+  const padCount = length - strNum.length;
+  const padding = padChar.repeat(padCount);
+  return padding + strNum;
+}
+console.log(formatWithPadding(111, '5', 5)); 
