@@ -22,4 +22,11 @@
 # -----------------------------------------------------------------
 
 def repeat_statement(statement, num):
-    return
+    repeated = []
+    
+    for i in range(num):
+        repeated.append(statement)
+    
+    return "\n".join(repeated)
+print(repeat_statement("My name is maha", 5))
+

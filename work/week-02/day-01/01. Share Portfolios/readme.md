@@ -59,7 +59,7 @@ This morning we will give you all the option to show off the work you have been 
 	<tr>
 		<td>• Turki Almalki</td>
 		<td>
-            <a target="_blank" href="https://itkex.github.io/portfolio/">Link</a>
+            <a target="_blank" href="https://itkex.github.io/Turki-Portfolio/">Link</a>
         </td>
 	</tr>
 	<tr>
