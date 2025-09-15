@@ -19,14 +19,20 @@ def check_letter():
         print(f"The letter {letter} is a consonant.")
 check_letter()
 
-# Exercise 2: Old enough to vote?
-age = int(input("Please enter your age: "))
-
-print(age)
-print(type(age))
-
+# Exercise 2: Old enough to vote?  (FIXED: input inside function + validate negatives/non-numeric)
 def check_voting_eligibility():
-    if age >= 18:
+    try:
+        age = int(input("Please enter your age: "))
+    except ValueError:
+        print("Invalid input. Please enter a whole number.")
+        return
+
+    print(age)
+    print(type(age))
+
+    if age < 0:
+        print("Invalid input. Age cannot be negative.")
+    elif age >= 18:
         print("The user is eligible")
     else:
         print("The user is not eligible")
@@ -43,17 +49,21 @@ def calculate_dog_years():
     print(f"The dog's age in dog years is {dog_years}.")
 calculate_dog_years()
 
-# Exercise 4: Weather Advice
-Weather = input("if it is cold (yes or no): ")
-Rain = input("if it is raining (yes or no): ")
-if Weather == "yes" and Rain == "yes":
-    print("Wear a waterproof coat.")
-elif Weather == "yes" and Rain == "no":
-    print("Wear a warm coat.")
-elif Weather == "no" and Rain == "yes":
-    print("Carry an umbrella.")
+# Exercise 4: Weather Advice  (FIXED: lowercase variable names + normalize/validate yes/no)
+weather = input("if it is cold (yes or no): ").strip().lower()
+rain = input("if it is raining (yes or no): ").strip().lower()
+
+if weather not in {"yes", "no"} or rain not in {"yes", "no"}:
+    print("Invalid input. Please answer 'yes' or 'no'.")
 else:
-    print("Wear light clothing.")
+    if weather == "yes" and rain == "yes":
+        print("Wear a waterproof coat.")
+    elif weather == "yes" and rain == "no":
+        print("Wear a warm coat.")
+    elif weather == "no" and rain == "yes":
+        print("Carry an umbrella.")
+    else:
+        print("Wear light clothing.")
 
 # Exercise 5: What's the Season?
 def determine_season():
@@ -92,4 +102,3 @@ def guess_number():
             print("Sorry, you failed to guess the number in five attempts.")
 
 guess_number()
-

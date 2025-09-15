@@ -13,4 +13,7 @@ def sum_to(num):
     for i in range(1, num + 1):
         total += i   
     return total
+    
+print(sum_to(6))   
+print(sum_to(10))  
 print(sum_to(17)) 
