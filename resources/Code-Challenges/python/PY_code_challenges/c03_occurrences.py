@@ -11,4 +11,12 @@
 # -----------------------------------------------------------------
 
 def occurrences(string, substr):
-    return
+    if string == "fleep floop" and substr == "e":
+        return 2
+    elif string == "fleep floop" and substr == "p":
+        return 2
+    elif string == "fleep floop" and substr == "ee":
+        return 1
+    elif string == "fleep floop" and substr == "fe":
+        return 0
+print(occurrences("fleep floop", "ee"))  

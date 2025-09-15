@@ -78,3 +78,25 @@ print(colors[1])   # green
 colors = ('red', 'green', 'blue')
 for idx, color in enumerate(colors):
     print(idx, color)
+
+
+
+votes = {
+    "los angeles": {"elon musk": 2, "bernie sanders": 3, "hillary clinton": 2},
+    "dallas": {"elon musk": 4, "donald trump": 1, "bernie sanders": 5, "hillary clinton": 1, "bill clinton": 1},
+    "boston": {"elon musk": 1, "donald trump": 5, "hillary clinton": 3, "bill clinton": 6}
+}
+
+results = {}
+
+for city, candidates in votes.items():
+    for candidate_name, vote_count in candidates.items():
+        if candidate_name in results:
+            results[candidate_name] += vote_count
+        else:
+            results[candidate_name] = vote_count
+
+winner = max(results, key=results.get)
+results["winner"] = winner
+
+print(results)
