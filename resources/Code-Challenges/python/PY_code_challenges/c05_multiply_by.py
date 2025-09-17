@@ -10,4 +10,10 @@
 # -----------------------------------------------------------------
 
 def multiply_by(numbers, factor):
-    return 
+    new_list = []
+    for number in numbers:
+        result = number * factor
+        new_list.append(result)   
+    return new_list   
+
+print(multiply_by([2, 1, 3], 9))
