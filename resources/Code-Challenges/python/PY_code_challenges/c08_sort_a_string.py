@@ -16,5 +16,9 @@
 # ```
 # -----------------------------------------------------------------
 
-def sort_a_string():
-    return
+def sort_a_string(word):         
+    sorted_chars = sorted(word)   
+    result = "".join(sorted_chars) 
+    return result            
+
+print(sort_a_string("hello"))   

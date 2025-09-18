@@ -17,4 +17,10 @@
 # -----------------------------------------------------------------
 
 def format_contacts(contacts):
-    return
+    sentences = []
+    for name, number in contacts.items():
+        sentence = f"{name} has a phone number of {number}."
+        sentences.append(sentence)
+    return " ".join(sentences)
+
+print(format_contacts({"Maha": 3456789, "amwaj": 98765432, "Sara": 100876543}))
