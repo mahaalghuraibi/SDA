@@ -35,4 +35,33 @@
 # -----------------------------------------------------------------
 
 def student_grade_report(students):
-    return
+    report_lines = []  
+
+    for name, grades in students.items():
+        average = sum(grades) / len(grades)  
+        highest_score = max(grades)          
+        lowest_score = min(grades) 
+
+        if average >= 90:
+            grade = "A"
+        elif average >= 80:
+            grade = "B"
+        elif average >= 70:
+            grade = "C"
+        elif average >= 60:
+            grade = "D"
+        else:
+            grade = "F"
+
+        line = f"{name}: Average = {average:.2f}, High = {highest_score}, Low = {lowest_score}, Grade = {grade}"
+        report_lines.append(line)
+
+    return "\n".join(report_lines)
+students = {
+    "Alice": [95, 85, 92],
+    "Bob": [70, 80, 65],
+    "Charlie": [50, 60, 55]
+}
+
+print(student_grade_report(students))
+

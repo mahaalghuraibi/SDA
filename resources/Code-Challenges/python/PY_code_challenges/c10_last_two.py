@@ -9,5 +9,12 @@
 # last_two(["tomatoes"])  => returns: ["tomatoes"]
 # -----------------------------------------------------------------
 
-def last_two():
-    return
+def last_two(foods):
+
+    return foods[-2:]
+    print(last_two(["banana", "peanut butter", "jelly", "bread", "pizza"]))
+# الناتج: ["bread", "pizza"]
+
+print(last_two(["tomatoes"]))
+# الناتج: ["tomatoes"]
+

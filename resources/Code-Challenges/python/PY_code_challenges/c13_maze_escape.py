@@ -27,6 +27,32 @@
 # - You may assume there is exactly one 'S' and one 'E' in the maze.
 # - The maze may be any rectangular size.
 # -----------------------------------------------------------------
-
 def maze_escape(maze):
-    return
+    start = None
+    for i in range(len(maze)):
+        for j in range(len(maze[0])):
+            if maze[i][j] == 'S':
+                start = (i, j)
+
+    to_visit = [start]
+    visited = set()
+
+    while to_visit:
+        x, y = to_visit.pop()  
+
+        if maze[x][y] == 'E':   
+            return True
+
+        if (x, y) not in visited:
+            visited.add((x, y))
+
+            if x > 0 and maze[x-1][y] != '1':
+                to_visit.append((x-1, y))
+            if x < len(maze)-1 and maze[x+1][y] != '1':
+                to_visit.append((x+1, y))
+            if y > 0 and maze[x][y-1] != '1':
+                to_visit.append((x, y-1))
+            if y < len(maze[0])-1 and maze[x][y+1] != '1':
+                to_visit.append((x, y+1))
+
+    return False

@@ -10,4 +10,11 @@
 # -----------------------------------------------------------------
 
 def largest(nums):
-    return
+    biggest = nums[0]      
+    for n in nums:          
+        if n > biggest:    
+            biggest = n    
+    return biggest          
+
+print(largest([1, 2, 3, 4, 0]))  
+print (largest([10, 4, 2, 231, 91, 54])) 
