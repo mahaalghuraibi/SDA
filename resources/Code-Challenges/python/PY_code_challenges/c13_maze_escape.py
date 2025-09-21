@@ -33,26 +33,38 @@ def maze_escape(maze):
         for j in range(len(maze[0])):
             if maze[i][j] == 'S':
                 start = (i, j)
+                break
+        if start:
+            break
+
+    if start is None:
+        return False
 
     to_visit = [start]
-    visited = set()
+    visited = set([start])
 
     while to_visit:
         x, y = to_visit.pop()  
 
-        if maze[x][y] == 'E':   
+        if maze[x][y] == 'E':
             return True
 
-        if (x, y) not in visited:
-            visited.add((x, y))
-
-            if x > 0 and maze[x-1][y] != '1':
-                to_visit.append((x-1, y))
-            if x < len(maze)-1 and maze[x+1][y] != '1':
-                to_visit.append((x+1, y))
-            if y > 0 and maze[x][y-1] != '1':
-                to_visit.append((x, y-1))
-            if y < len(maze[0])-1 and maze[x][y+1] != '1':
-                to_visit.append((x, y+1))
+        moves = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
+        for nx, ny in moves:
+            if (0 <= nx < len(maze) and 0 <= ny < len(maze[0])  # داخل حدود المصفوفة
+                and maze[nx][ny] != '1'                         # مش جدار
+                and (nx, ny) not in visited):                   # مش مكرر
+                to_visit.append((nx, ny))
+                visited.add((nx, ny))
 
     return False
+
+
+maze = [
+    ['S', '0', '1', '0'],
+    ['1', '0', '1', '0'],
+    ['1', '0', '0', '0'],
+    ['1', '1', '1', 'E']
+]
+
+print(maze_escape(maze))  

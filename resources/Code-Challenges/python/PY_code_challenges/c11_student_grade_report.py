@@ -57,11 +57,13 @@ def student_grade_report(students):
         report_lines.append(line)
 
     return "\n".join(report_lines)
-students = {
-    "Alice": [95, 85, 92],
-    "Bob": [70, 80, 65],
-    "Charlie": [50, 60, 55]
-}
 
-print(student_grade_report(students))
 
+if __name__ == "__main__":
+    students = {
+        "Alice": [95, 85, 92],
+        "Bob": [70, 80, 65],
+        "Charlie": [50, 60, 55]
+    }
+
+    print(student_grade_report(students))
