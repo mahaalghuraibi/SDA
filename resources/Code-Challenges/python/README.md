@@ -1,4 +1,4 @@
-# Bonus Python Exercises
+# Python Code Challenges
 
 This repo contains progressive Python challenges and exercises that can be used for self-study.
 
