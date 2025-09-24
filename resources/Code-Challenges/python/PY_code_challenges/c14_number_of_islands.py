@@ -20,6 +20,38 @@
 # - The grid can be any size (MxN).
 # - The grid contains only '1' or '0'.
 # -----------------------------------------------------------------
-
 def number_of_islands(grid):
-    return
+    # عدد الصفوف والأعمدة
+    rows = len(grid)
+    cols = len(grid[0])
+    
+    def sink_island(r, c):
+        if r < 0 or r >= rows or c < 0 or c >= cols or grid[r][c] == "0":
+            return
+        grid[r][c] = "0"  
+        sink_island(r+1, c)
+        sink_island(r-1, c)
+        sink_island(r, c+1)
+        sink_island(r, c-1)
+
+    # العداد
+    island_count = 0
+    
+    # نمر على كل خلية
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == "1":
+                island_count += 1
+                sink_island(r, c)
+    
+    return island_count
+
+
+grid = [
+    ["1","1","0","0","0"],
+    ["1","1","0","0","0"],
+    ["0","0","1","0","0"],
+    ["0","0","0","1","1"]
+]
+
+print(number_of_islands(grid))  

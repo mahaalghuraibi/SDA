@@ -20,4 +20,27 @@
 # -----------------------------------------------------------------
 
 def almost_palindrome(s):
-    return
+    s = "".join(ch.lower() for ch in s if ch.isalnum())
+    left, right = 0, len(s) - 1
+
+    def is_palindrome(l, r):
+        while l < r:
+            if s[l] != s[r]:
+                return False
+            l += 1
+            r -= 1
+        return True
+
+    while left < right:
+        if s[left] != s[right]:
+            return is_palindrome(left+1, right) or is_palindrome(left, right-1)
+        left += 1
+        right -= 1
+
+    return True
+
+
+print(almost_palindrome("racecar"))
+print(almost_palindrome("abca"))
+print(almost_palindrome("hello"))
+print(almost_palindrome("A man, a plan, a canal, Panama"))

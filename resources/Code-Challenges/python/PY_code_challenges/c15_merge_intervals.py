@@ -25,6 +25,42 @@
 # - Intervals may be in any order.
 # - Start is always less than or equal to end.
 # -----------------------------------------------------------------
+# -----------------------------------------------------------------
+# Challenge: 15_merge_intervals
+# -----------------------------------------------------------------
 
 def merge_intervals(intervals):
-    return
+    if not intervals or len(intervals) == 1:
+        return intervals
+
+    intervals.sort(key=lambda x: x[0])
+
+    merged = []
+
+    for interval in intervals:
+        current_start = interval[0]
+        current_end   = interval[1]
+
+       
+        if not merged:
+            merged.append([current_start, current_end])
+            continue
+
+       
+        last_start, last_end = merged[-1]
+
+        
+        if current_start <= last_end:
+       
+            merged[-1][1] = max(last_end, current_end)
+        else:
+        
+            merged.append([current_start, current_end])
+
+
+    return merged
+
+
+
+
+print(merge_intervals([[1,4],[4,5]]))   
