@@ -25,4 +25,32 @@
 # -----------------------------------------------------------------
 
 def sum_combinations(numbers, target):
-    return
+    nums = sorted(numbers)
+    results = []
+    path = []
+
+    def backtrack(start_index, remaining):
+        if remaining == 0:
+            results.append(path.copy())
+            return
+        if remaining < 0:
+            return
+        prev = None
+        for i in range(start_index, len(nums)):
+            if prev is not None and nums[i] == prev:
+                continue
+            path.append(nums[i])
+            backtrack(i + 1, remaining - nums[i])
+            path.pop()
+            prev = nums[i]
+
+    backtrack(0, target)
+    return results
+
+
+if __name__ == "__main__":
+    print(sum_combinations([2, 3, 6, 7], 7))
+    print(sum_combinations([2, 3, 5], 8))
+    print(sum_combinations([2, 4, 6], 6))
+    print(sum_combinations([2, 2, 3, 3], 6))
+    print(sum_combinations([1, 1, 2, 5, 6, 7, 10], 8))
