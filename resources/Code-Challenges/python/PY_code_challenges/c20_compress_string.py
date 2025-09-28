@@ -43,3 +43,4 @@ def compress_string(s):
 print(compress_string("aaabbc"))        
 print(compress_string("abcd"))         
 print(compress_string("wwwwaaadexxxxx")) 
+print(compress_string("wwww")) 
