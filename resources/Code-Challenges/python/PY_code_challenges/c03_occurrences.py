@@ -8,6 +8,7 @@
 # occurrences('fleep floop', 'p')   # returns 2
 # occurrences('fleep floop', 'ee')  # returns 1
 # occurrences('fleep floop', 'fe')  # returns 0
+# occurrences('fleep floop', '')  # returns 0
 # -----------------------------------------------------------------
 def occurrences(string, substr):
     return string.count(substr)

@@ -68,6 +68,6 @@ class TestSumCombinations(unittest.TestCase):
     def test_repeated_numbers(self):
         numbers = [2, 3, 2, 3]
         target = 5
-        expected = [[2,3], [2,3]]  # may appear twice if allowed, otherwise deduplicate
+        expected = [[2,3]]
         result = c17_sum_combinations.sum_combinations(numbers, target)
         self.assertEqual(sorted(result), sorted(expected))

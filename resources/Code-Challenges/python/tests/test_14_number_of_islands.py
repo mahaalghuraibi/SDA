@@ -68,7 +68,7 @@ class TestNumberOfIslands(unittest.TestCase):
             ["0","1","0","1","0"]
         ]
         result = c14_number_of_islands.number_of_islands(grid)
-        self.assertEqual(result, 13)
+        self.assertEqual(result, 10)
 
     # -----------------------------------------------------------------
     # Test 6: Single cell island

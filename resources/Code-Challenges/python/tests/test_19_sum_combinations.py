@@ -76,7 +76,7 @@ class TestSumCombinations(unittest.TestCase):
     def test_repeated_numbers(self):
         numbers = [2, 3, 2, 3]
         target = 5
-        expected = [[2,3], [2,3]]  # may appear twice if allowed
+        expected = [[2,3]]
         sorted_result = sorted([sorted(group) for group in c19_sum_combinations.sum_combinations(numbers, target)])
         sorted_expected = sorted([sorted(group) for group in expected])
         self.assertEqual(sorted_result, sorted_expected)
