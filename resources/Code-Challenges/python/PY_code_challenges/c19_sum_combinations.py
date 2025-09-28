@@ -25,4 +25,29 @@
 # -----------------------------------------------------------------
 
 def sum_combinations(numbers, target):
-    return
+    numbers.sort()
+    result = []
+
+    def backtrack(start_index, current_combination, current_sum):
+        if current_sum == target:
+            result.append(list(current_combination))
+            return
+
+        if current_sum > target:
+            return
+
+        for i in range(start_index, len(numbers)):
+            if i > start_index and numbers[i] == numbers[i-1]:
+                continue
+
+            current_combination.append(numbers[i])
+            backtrack(i+1, current_combination, current_sum + numbers[i])
+            current_combination.pop()
+
+    backtrack(0, [], 0)
+    return result
+
+
+print(sum_combinations([2,3,6,7], 7))
+print(sum_combinations([2,3,5], 8))
+print(sum_combinations([2,4,6], 6))
