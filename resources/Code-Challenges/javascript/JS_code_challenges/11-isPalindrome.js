@@ -14,4 +14,25 @@ isPalindrome(''); //=> true
 -----------------------------------------------------------------*/
 // Your solution for 11-isPalindrome here:
 
-export function isPalindrome() {}
+// -----------------------------------------------------------------
+// Challenge: 11-isPalindrome
+// -----------------------------------------------------------------
+
+export function isPalindrome(str) {
+  let cleaned = str.toLowerCase();
+
+  cleaned = cleaned.replace(/\s+/g, "");
+
+  if (cleaned.length <= 1) {
+    return true;
+  }
+
+  let reversed = cleaned.split("").reverse().join("");
+
+  return cleaned === reversed;
+}
+
+console.log(isPalindrome("SEI Rocks"));          
+console.log(isPalindrome("rotor"));             
+console.log(isPalindrome("A nut for a jar of tuna")); 
+console.log(isPalindrome(""));                  

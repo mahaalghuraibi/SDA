@@ -19,6 +19,9 @@
 # -----------------------------------------------------------------
 
 def compress_string(s):
+    if not s:  
+        return ""
+    
     result = ""       
     count = 1          
 
@@ -39,8 +42,6 @@ def compress_string(s):
 
     return result
 
-
-print(compress_string("aaabbc"))        
-print(compress_string("abcd"))         
-print(compress_string("wwwwaaadexxxxx")) 
-print(compress_string("wwww")) 
+    print(compress_string(""))       
+    print(compress_string("a"))       
+    print(compress_string("aaabbc"))  
