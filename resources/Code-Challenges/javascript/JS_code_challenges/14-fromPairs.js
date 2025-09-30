@@ -10,5 +10,24 @@ fromPairs([ ['a', 1], ['b', 2], ['c', 3] ]) //=> { a: 1, b: 2, c: 3 }
 fromPairs([ ['name', 'Sam"], ['age', 24], ['name', 'Sally'] ]) //=> { name: "Sally", age: 24 }
 -----------------------------------------------------------------*/
 // Your solution for 14-fromPairs here:
+export function fromPairs(arr) {
+  let result = {}; // 
 
-export function fromPairs() {}
+  for (let i = 0; i < arr.length; i++) {
+    let pair = arr[i];  
+    let key = pair[0];
+    let value = pair[1];
+
+    if (result[key] === undefined) {
+      result[key] = value;  
+    } else {
+      result[key] = value;   
+    }
+  }
+
+  return result;
+}
+
+console.log(fromPairs([ ['a', 1], ['b', 2], ['c', 3] ]));
+
+console.log(fromPairs([ ['name', 'Sam'], ['age', 24], ['name', 'Sally'] ]));
