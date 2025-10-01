@@ -11,4 +11,20 @@ mergeObjects({a: 1, b: 2, c: 3}, {d: 4}, {b: 22, d: 44});  //=> {a: 1, b: 22, c:
 -----------------------------------------------------------------*/
 // Your solution for 15-mergeObjects here:
 
-export function mergeObjects() {}
+export function mergeObjects() {
+  let target = arguments[0];
+
+  for (let i = 1; i < arguments.length; i++) {
+    let current = arguments[i];
+
+    for (let key in current) {
+      target[key] = current[key];
+    }
+  }
+
+  return target;
+}
+
+console.log(mergeObjects({}, {a: 1}));
+console.log(mergeObjects({a: 1, b: 2, c: 3}, {d: 4}));
+console.log(mergeObjects({a: 1, b: 2, c: 3}, {d: 4}, {b: 22, d: 44}));

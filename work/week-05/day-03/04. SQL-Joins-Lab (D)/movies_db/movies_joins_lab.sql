@@ -1,4 +1,4 @@
-\connect movies_lab_db;
+\connect movies_joins_lab;
 
 DROP TABLE IF EXISTS movies CASCADE;
 DROP TABLE IF EXISTS directors CASCADE;

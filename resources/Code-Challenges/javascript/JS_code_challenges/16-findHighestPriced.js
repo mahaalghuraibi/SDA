@@ -26,4 +26,30 @@ findHighestPriced([
 -----------------------------------------------------------------*/
 // Your solution for 16-findHighestPriced here:
 
-export function findHighestPriced() {}
+export function findHighestPriced(arr) {
+  let highest = arr[0];
+
+  for (let i = 1; i < arr.length; i++) {
+    let current = arr[i];
+
+    if (current.price > highest.price) {
+      highest = current;
+    }
+  }
+
+  return highest;
+}
+
+console.log(findHighestPriced([
+  { sku: 'a1', price: 25 },
+  { sku: 'b2', price: 5 },
+  { sku: 'c3', price: 50 },
+  { sku: 'd4', price: 10 }
+]));
+
+console.log(findHighestPriced([
+  { sku: 'a1', price: 25 },
+  { sku: 'b2', price: 50 },
+  { sku: 'c3', price: 50 },
+  { sku: 'd4', price: 10 }
+]));

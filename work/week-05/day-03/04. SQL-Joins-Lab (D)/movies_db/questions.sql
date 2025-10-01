@@ -2,11 +2,16 @@
 SELECT * FROM users;
 
 -- 1. List all the movie titles and their corresponding directors.
-
+SELECT m.title, d.name
+FROM movies m, directors d
+WHERE m.director_id = d.id;
 
 
 -- 2. Select the movie title and user name for all of the "favorites" represented by the `users_movies` table.
-
+SELECT users.name, movies.title
+FROM users_movies
+JOIN users ON users_movies.user_id = users.id
+JOIN movies ON users_movies.movie_id = movies.id;
 
 
 -- 3. List the movies with the number of favorites they have.

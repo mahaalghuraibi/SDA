@@ -45,7 +45,7 @@ WHERE manufacturer = 2;
 
 -- 1.8 Compute the number of products with a price larger than or equal to $180.
 -- Your query goes here:
-SELECT COUNT(*) AS count_products
+SELECT COUNT(price)
 FROM products
 WHERE price >= 180;
 
@@ -89,12 +89,12 @@ GROUP BY manufacturers.name;
 
 -- 1.14 Select the names of manufacturer whose products have an average price larger than or equal to $150.
 -- Your query goes here:
-SELECT manufacturers.name
-FROM products
-JOIN manufacturers
-ON products.manufacturer = manufacturers.code
-GROUP BY manufacturers.name
-HAVING AVG(products.price) >= 150;
+SELECT m.name
+FROM products p
+JOIN manufacturers m
+  ON p.manufacturer = m.code
+GROUP BY m.name
+HAVING AVG(p.price) >= 150;
 
 
 -- 1.15 Select the name and price of the cheapest product.
@@ -106,17 +106,18 @@ LIMIT 1;
 
 
 -- 1.16 Select the name of each manufacturer along with the name and price of its most expensive product.
--- Your query goes here:
-SELECT m.name AS manufacturer, p.name AS product, p.price
+
+SELECT m.name AS manufacturer,
+       p.name AS product,
+       p.price
 FROM products p
-JOIN manufacturers m ON p.manufacturer = m.code
+JOIN manufacturers m
+  ON p.manufacturer = m.code
 WHERE p.price = (
-SELECT MAX(price)
- FROM products
-WHERE manufacturer = p.manufacturer
+    SELECT MAX(p2.price)
+    FROM products p2
+    WHERE p2.manufacturer = p.manufacturer
 );
-
-
 
 -- 1.17 Add a new product: Loudspeakers, $70, manufacturer 2.
 -- Your query goes here:
