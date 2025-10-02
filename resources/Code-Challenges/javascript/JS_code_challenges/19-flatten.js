@@ -17,4 +17,26 @@ flatten( [1, [2, [3, [4]]], 1, 'a', ['b', 'c']] );
 -----------------------------------------------------------------*/
 // Your solution for 19-flatten here:
 
-export function flatten() {}
+export function flatten(arr) {
+  let result = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    let value = arr[i];
+
+
+    if (Array.isArray(value)) {
+      let flat = flatten(value);   
+      for (let j = 0; j < flat.length; j++) {
+        result.push(flat[j]);     
+      }
+    } else {
+      result.push(value);
+    }
+  }
+
+  return result;
+}
+
+console.log(flatten([1, [2, 3]]));  
+
+console.log(flatten([1, [2, [3, [4]]], 1, 'a', ['b', 'c']])); 
