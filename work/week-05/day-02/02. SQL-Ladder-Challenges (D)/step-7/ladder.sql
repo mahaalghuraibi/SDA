@@ -64,7 +64,7 @@ CREATE TABLE Package
 INSERT INTO Client
 VALUES (1, 'Zapp Brannigan');
 INSERT INTO Client
-VALUES (2, "Al Gore's Head");
+VALUES ( 2,'Al Gores Head');
 INSERT INTO Client
 VALUES (3, 'Barbados Slim');
 INSERT INTO Client

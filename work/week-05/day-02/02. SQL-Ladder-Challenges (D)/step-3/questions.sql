@@ -56,9 +56,9 @@ JOIN warehouses w ON b.warehouse = w.code
 WHERE w.location = 'Chicago';
 
 --3.11 Create a new warehouse in New York with a capacity for 3 boxes.
-UPDATE warehouses
-SET location = 'New York', capacity = 3
-WHERE code = 6;
+INSERT INTO warehouses (code, location, capacity)
+VALUES (6, 'New York', 3);
+
 
 --3.12 Create a new box, with code "H5RT", containing "Papers" with a value of $200, and located in warehouse 2.
 INSERT INTO boxes (code, contents, value, warehouse)

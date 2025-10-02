@@ -24,4 +24,25 @@ reduceArray( ['Yes', 'No', 'Yes', 'Maybe'], function(acc, v) {
 -----------------------------------------------------------------*/
 // Your solution for 18-reduceArray here:
 
-export function reduceArray() {}
+export function reduceArray(arr, callback, initialValue) {
+  let acc = initialValue
+  for (let i = 0; i < arr.length; i++) {
+    acc = callback(acc, arr[i], i)
+  }
+  return acc
+}
+
+
+
+console.log(reduceArray([1, 2, 3], function(acc, n) {
+  return acc + n
+}, 0))
+
+console.log(reduceArray([1, 2, 3], function(acc, n, i) {
+  return acc + n + i
+}, 0))
+
+console.log(reduceArray(['Yes', 'No', 'Yes', 'Maybe'], function(acc, v) {
+  acc[v] = acc[v] ? acc[v] + 1 : 1
+  return acc
+}, {}))
