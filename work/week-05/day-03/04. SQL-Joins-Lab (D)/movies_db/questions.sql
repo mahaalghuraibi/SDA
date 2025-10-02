@@ -2,38 +2,38 @@
 SELECT * FROM users;
 
 -- 1. List all the movie titles and their corresponding directors.
-SELECT m.title, d.name
-FROM movies m
-JOIN directors d ON m.director_id = d.director_id;
+SELECT movies.title, directors.name
+FROM movies
+JOIN directors ON movies.director_id = directors.director_id;
 
 -- 2. Select the movie title and user name for all of the "favorites"
-SELECT m.title, u.name
-FROM users_movies um
-JOIN users  u ON um.user_id  = u.user_id
-JOIN movies m ON um.movie_id = m.movie_id;
+SELECT movies.title, users.name
+FROM users_movies
+JOIN users  ON users_movies.user_id  = users.user_id
+JOIN movies ON users_movies.movie_id = movies.movie_id;
 
 -- 3. List the movies with the number of favorites they have.
-SELECT m.title, COUNT(um.user_id) AS favorite_count
-FROM movies m
-LEFT JOIN users_movies um ON um.movie_id = m.movie_id
-GROUP BY m.movie_id, m.title
-ORDER BY favorite_count DESC, m.title;
+SELECT movies.title, COUNT(users_movies.user_id) AS favorite_count
+FROM movies
+LEFT JOIN users_movies ON users_movies.movie_id = movies.movie_id
+GROUP BY movies.movie_id, movies.title
+ORDER BY favorite_count, movies.title;
 
 -- 4. Directors + number of favorites for all their movies (desc)
-SELECT d.name, COUNT(um.user_id) AS favorite_count
-FROM directors d
-JOIN movies m        ON m.director_id = d.director_id
-LEFT JOIN users_movies um ON um.movie_id   = m.movie_id
-GROUP BY d.director_id, d.name
-ORDER BY favorite_count DESC, d.name;
+SELECT directors.name, COUNT(users_movies.user_id) AS favorite_count
+FROM directors
+JOIN movies        ON movies.director_id = directors.director_id
+LEFT JOIN users_movies ON users_movies.movie_id   = movies.movie_id
+GROUP BY directors.director_id, directors.name
+ORDER BY favorite_count DESC, directors.name;
 
 -- 5. user name + director name + favorite count per (user, director)
-SELECT u.name AS user_name,
-       d.name AS director_name,
+SELECT users.name AS user_name,
+       directors.name AS director_name,
        COUNT(*) AS favorite_count
-FROM users_movies um
-JOIN users     u ON um.user_id  = u.user_id
-JOIN movies    m ON um.movie_id = m.movie_id
-JOIN directors d ON m.director_id = d.director_id
-GROUP BY u.user_id, u.name, d.director_id, d.name
-ORDER BY u.name, director_name;
+FROM users_movies
+JOIN users     ON users_movies.user_id  = users.user_id
+JOIN movies    ON users_movies.movie_id = movies.movie_id
+JOIN directors ON movies.director_id    = directors.director_id
+GROUP BY users.user_id, users.name, directors.director_id, directors.name
+ORDER BY users.name, directors.name;
