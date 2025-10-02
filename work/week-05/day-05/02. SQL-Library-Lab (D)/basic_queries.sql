@@ -4,6 +4,7 @@
 \x on     
 
 -- Get all information about all authors
+SELECT * FROM authors;
 
 -- Get just the name and birth year of all authors
 
