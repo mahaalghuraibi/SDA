@@ -14,7 +14,7 @@ isPrime(200) //=> false
 // Your solution for 20-isPrime here:
 
 export function isPrime(num) {
-  if (num <= 1) {
+  if (!Number.isInteger(num) || num <= 1) {
     return false;
   }
 
@@ -27,8 +27,10 @@ export function isPrime(num) {
   return true; 
 }
 
-console.log(isPrime(2));   
-console.log(isPrime(3));  
+
+console.log(isPrime(2));    
+console.log(isPrime(3));   
 console.log(isPrime(4));   
-console.log(isPrime(29));  
-console.log(isPrime(200));
+console.log(isPrime(29));   
+console.log(isPrime(200));  
+console.log(isPrime(3.1));

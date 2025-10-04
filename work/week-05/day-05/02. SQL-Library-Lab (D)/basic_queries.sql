@@ -1,7 +1,7 @@
 -- BASIC QUERIES
 -- Unless otherwise stated, all queries should return all columns
 \connect library
-\x on    
+\x off   
 
 -- Get all information about all authors
 SELECT * FROM authors;
@@ -16,7 +16,7 @@ WHERE birth_year >= 1900;
 -- Get all authors born in the USA
 SELECT *
 FROM authors
-WHERE nationality = 'USA';
+WHERE nationality ILIKE '%United States%';
 -- Get all books published on 1985
 SELECT *
 FROM books
