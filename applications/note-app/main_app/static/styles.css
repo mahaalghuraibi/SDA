@@ -1,4 +1,61 @@
 
 body {
-  background-color: pink;
+  background-color: #fff6fa;     
+  font-family: Arial, sans-serif; 
+  text-align: center;             
+  color: #4b2c4d;                 
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: #ffd6e9;
+  padding: 10px;
+}
+
+nav a {
+  color: #6a2d5d;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+header {
+  padding: 20px;
+}
+
+h1 {
+  color: #e05da3;
+}
+
+p {
+  color: #70315d;
+  font-size: 18px;
+}
+
+img {
+  width: 60%;
+  border-radius: 15px;
+  margin-top: 15px;
+}
+
+section {
+  background-color: white;
+  width: 80%;
+  margin: 20px auto;
+  padding: 15px;
+  border: 1px solid #f3b6d0;
+  border-radius: 10px;
+  text-align: left;
+}
+
+h2 {
+  color: #9e3a76;
+}
+
+footer {
+  background-color: #fff0f8;
+  padding: 15px;
+  font-style: italic;
+  color: #d48db6;
 }
