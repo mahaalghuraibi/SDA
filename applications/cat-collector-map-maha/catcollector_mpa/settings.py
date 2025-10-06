@@ -28,9 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# Application definition   
 INSTALLED_APPS = [
-    # add main_app here
     'main_app',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -76,10 +75,11 @@ WSGI_APPLICATION = 'catcollector_mpa.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'catcollector',
     }
 }
+
 
 
 # Password validation
