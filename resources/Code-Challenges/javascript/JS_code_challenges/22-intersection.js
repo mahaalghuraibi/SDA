@@ -14,4 +14,23 @@ intersection([1, 'a', true, 1, 1], [true, 1, 'b', 1]) //=> [1, true, 1]
 -----------------------------------------------------------------*/
 // Your solution for 22-intersection here:
 
-export function intersection() {}
+export function intersection(arr1, arr2) {
+  let result = [];
+  let copyArr2 = arr2.slice(); 
+
+  for (let i = 0; i < arr1.length; i++) {
+    let value = arr1[i];
+    let index = copyArr2.indexOf(value);
+
+    if (index !== -1) {
+      result.push(value);
+      copyArr2.splice(index, 1); 
+    }
+  }
+
+  return result;
+}
+
+console.log(intersection(['a', 1], [])); 
+console.log(intersection(['a', 1], [true, 'a', 15])); 
+console.log(intersection([1, 'a', true, 1, 1], [true, 1, 'b', 1])); 

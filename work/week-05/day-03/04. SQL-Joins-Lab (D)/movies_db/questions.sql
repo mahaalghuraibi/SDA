@@ -1,3 +1,5 @@
+\connect movies_joins_lab;
+
 -- Test query!!
 SELECT * FROM users;
 

@@ -35,26 +35,7 @@ An interaction could look like this:
 quit
 ```
 
-<hr>
-
-Write a program that calculates and prints the value according to the given formula:
-`Q = Square root of [(2 * C * D)/H]`
-Following are the fixed values of `C` and `H`:
-
-`C is 50. H is 30`.
-
-`D` is the variable whose values should be input to your program in a comma-separated sequence.
-
-Example
-
-Let us assume the following comma separated input sequence is given to the program:
-`100,150,180`
-
-The output of the program should be:
-`18,22,24`
-
-
 ## How to submit homework
 
-- Step 1. Complete your work in a file called `animals.py`
+- Step 1. Complete your work in a file called `calculator.py`
 - Step 2. Add, Commit, Push.

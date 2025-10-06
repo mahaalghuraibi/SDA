@@ -18,4 +18,30 @@ Hint: Code a nested isPrime(n) helper function that returns true if n is prime, 
 -----------------------------------------------------------------*/
 // Your solution for 21-primeFactors here:
 
-export function primeFactors() {}
+export function primeFactors(num) {
+  if (!Number.isInteger(num) || num <= 1) {
+    return [];
+  }
+
+  let factors = [];   
+  let divisor = 2;   
+
+  while (num > 1) {
+    if (num % divisor === 0) {
+      factors.push(divisor); 
+      num = num / divisor;  
+    } else {
+      divisor++; 
+    }
+  }
+
+  return factors;
+}
+
+console.log(primeFactors(2));   
+console.log(primeFactors(3));   
+console.log(primeFactors(4));    
+console.log(primeFactors(18));   
+console.log(primeFactors(29));  
+console.log(primeFactors(105));   
+console.log(primeFactors(200));  
