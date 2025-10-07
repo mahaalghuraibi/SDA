@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Note
+from .forms import CommentForm
+
 
 def home(request):
     return render(request, 'home.html')
@@ -32,3 +34,12 @@ class NoteUpdate(UpdateView):
 class NoteDelete(DeleteView):
     model = Note
     success_url = '/notes/'
+
+
+def note_detail(request, note_id):
+    note = Note.objects.get(id=note_id)
+    comment_form = CommentForm()
+    return render(request, 'notes/detail.html', {
+        'note': note, 
+        'comment_form': comment_form
+    })

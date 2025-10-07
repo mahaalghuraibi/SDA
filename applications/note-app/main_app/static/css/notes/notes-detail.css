@@ -28,3 +28,78 @@
   font-size: 14px;
 }
 
+.comments-container {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 70%;
+  margin: 30px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.comments h2 {
+  color: #d48db6;
+  margin-bottom: 15px;
+}
+
+.comments img {
+  width: 40px;
+  margin-bottom: 10px;
+}
+
+/* 💬 Form Style */
+form.subsection-content {
+  margin: 15px 0;
+}
+
+form.subsection-content textarea {
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 14px;
+  resize: none;
+}
+
+form.subsection-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+form.subsection-content button {
+  background-color: #d48db6;
+  border: none;
+  color: black;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+form.subsection-content button:hover {
+  background-color: #e5a5c8;
+}
+
+.comments table {
+  width: 90%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.comments th, .comments td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.comments th {
+  background-color: #fce4ec;
+  color: black;
+}
+
+.comments td {
+  background-color: #fffafc;
+}
+

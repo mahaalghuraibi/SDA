@@ -11,3 +11,11 @@ class Note(models.Model):
 
     def get_absolute_url(self):
         return reverse('note_detail', kwargs={'note_id': self.id})
+
+class Comment(models.Model):
+    text = models.TextField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)
+    note = models.ForeignKey('Note', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Comment on {self.note.title}"
