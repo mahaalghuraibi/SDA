@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/notes.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <h1>All Notes</h1>
+</section>
+
+<section class="note-list">
+  {% for note in notes %}
+    <div class="note-card">
+      <h2>{{ note.title }}</h2>
+      <p>{{ note.body }}</p>
+    </div>
+  {% empty %}
+    <p>No notes yet!</p>
+  {% endfor %}
+</section>
+{% endblock %}

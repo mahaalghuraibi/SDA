@@ -1,0 +1,17 @@
+.note-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.note-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  width: 250px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background: #fff;
+}
+.note-card h2 {
+  margin-top: 0;
+  color: #d48db6; /* نفس ألوانك */
+}

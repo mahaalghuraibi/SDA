@@ -1,32 +1,19 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Mood Notes </title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-  </head>
 
-  <body>
-    <nav>
-      <a href="/">Home</a> 
-        <a href="/notes">All Notes</a>
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% endblock %}
 
-    </nav>
+{% block content %}
+<header class="hero">
+  <h1>Mood Notes</h1>
+  <p>Write about your mood, your day, and your feelings</p>
+  <img src="{% static 'images/mood.jpg' %}" alt="Mood Notes" />
+</header>
 
-    <header>
-      <h1> Mood Notes </h1>
-      <p>Write about your mood, your day, and your feelings </p>
-      <img src="{% static 'images/mood.jpg' %}" alt="Mood Notes" >
-    </header>
-
-    <section>
-      <h2>Today's Mood</h2>
-      <p>Feeling happy and grateful 😊</p>
-    </section>
-  </body>
-<footer>
-  <p>Made with 💕 by <strong>Maha Alghuraibi</strong></p>
-</footer>
-</html>
-
+<section class="today-mood">
+  <h2>Today's Mood</h2>
+  <p>Feeling happy and grateful 😊</p>
+</section>
+{% endblock %}
