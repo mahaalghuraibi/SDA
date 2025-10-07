@@ -1,31 +1,37 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Mood Notes </title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="images/png" href="{% static 'images/splash.svg' %}"/>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <title>Mood Notes</title>
+    {% block head %}{% endblock %}
   </head>
-
-  <body>
-    <nav>
-      <a href="/">Home</a> 
-        <a href="/notes">All Notes</a>
-
-    </nav>
-
+    <body>
     <header>
-      <h1> Mood Notes </h1>
-      <p>Write about your mood, your day, and your feelings </p>
-      <img src="{% static 'images/mood.jpg' %}" alt="Mood Notes" >
+      <div class="header-logo-container">
+        <a href="{% url 'home' %}">
+          <img src="{% static 'images/header-logo.svg' %}" alt="Mood Notes Logo" />
+        </a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'notes_index' %}">All Notes</a></li>
+          <li><a href="{% url 'note_create' %}">Add a Note</a></li>
+        </ul>
+      </nav>
     </header>
 
-    <section>
-      <h2>Today's Mood</h2>
-      <p>Feeling happy and grateful 😊</p>
-    </section>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <p>Made with 💕 by <strong>Maha Alghuraibi</strong></p>
+    </footer>
   </body>
-<footer>
-  <p>Made with 💕 by <strong>Maha Alghuraibi</strong></p>
-</footer>
 </html>
