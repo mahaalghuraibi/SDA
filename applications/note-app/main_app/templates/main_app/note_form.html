@@ -2,8 +2,9 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/form.css' %}" />
-{% endblock %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}"
+>{% endblock %}
+
 
 {% block content %}
 <div class="page-header">
@@ -12,7 +13,6 @@
   {% else %}
     <h1>Add a Note</h1>
   {% endif %}
-  <img src="{% static 'images/nerd-note.svg' %}" alt="A note using a computer" />
 </div>
 
 <form action="" method="post" class="form-container">

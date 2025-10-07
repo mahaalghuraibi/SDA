@@ -1,7 +1,7 @@
 from django import forms
-from .models import Cat
+from .models import Feeding
 
-class CatForm(forms.ModelForm):
+class FeedingForm(forms.ModelForm):
     class Meta:
-        model = Cat
-        fields = ['name', 'breed', 'description', 'age']
+        model = Feeding
+        fields = ['date', 'meal']

@@ -1,0 +1,34 @@
+.page-header {
+  text-align: center;
+  margin: 20px;
+}
+
+.page-header img {
+  width: 250px;
+  margin-top: 10px;
+}
+
+.card-container {
+  text-align: center;
+}
+
+.card {
+  display: inline-block;
+  width: 220px;
+  margin: 10px;
+  padding: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.card h2 {
+  color: #d48db6;
+}
+
+.card a {
+  text-decoration: none; 
+  color: #333;          
+}
+
+

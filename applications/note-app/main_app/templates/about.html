@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
 
 {% block content %}
 <h1>About Mood Notes</h1>
 <hr />
 <p class="page-content">
   Mood Notes is a simple app where you can write about your mood, your day, and your feelings.  
-  It helps you reflect on your emotions and keep track of your daily thoughts 💭.  
-</p>
-<p class="page-content">
-  Created with 💕 by <strong>Maha Alghuraibi</strong>.
+  It helps you reflect on your emotions and keep track of your daily thoughts .  
 </p>
 {% endblock %}

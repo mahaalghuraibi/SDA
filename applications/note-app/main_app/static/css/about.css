@@ -1,0 +1,12 @@
+h1 {
+  text-align: center;
+  color: #c95d94;
+}
+
+.page-content {
+  max-width: 600px;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}

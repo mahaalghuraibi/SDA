@@ -1,0 +1,30 @@
+.card {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  width: 50%;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.card h1 {
+  color: #d48db6;
+  margin-bottom: 20px;
+}
+.card button {
+  background-color: #d48db6;
+  border: none;
+  color: black;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+}
+.card a {
+  background-color: #d48db6;
+  color: black;
+  text-decoration: none;
+  margin-left: 10px;
+  font-size: 14px;
+}
+

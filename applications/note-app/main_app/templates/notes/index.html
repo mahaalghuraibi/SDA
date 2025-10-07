@@ -2,8 +2,9 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/notes.css' %}">
+<link rel="stylesheet" href="{% static 'css/notes/notes-index.css' %}">
 {% endblock %}
+
 
 {% block content %}
 <section class="page-header">
@@ -18,7 +19,6 @@
         <div class="card-content">
           <h2 class="card-title">{{ note.title }}</h2>
           <p>{{ note.body|truncatewords:20 }}</p>
-          <p><small>{{ note.created_at|date:"Y-m-d H:i" }}</small></p>
         </div>
       </a>
     </div>
