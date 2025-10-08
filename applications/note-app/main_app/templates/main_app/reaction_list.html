@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/reactions/reaction-index.css' %}">
+{% endblock %}
+
+{% block content %}
+  <section class="page-header">
+    <h1>All Reactions</h1>
+  </section>
+
+  <section class="card-container">
+    {% for r in object_list %}
+      <div class="card" {% if r.color %}style="border-color: {{ r.color }}"{% endif %}>
+        <div class="card-bg" {% if r.color %}style="background-color: {{ r.color }}"{% endif %}></div>
+        <a href="{% url 'reaction-detail' r.pk %}">
+          <div class="card-content">
+            <h2>{{ r.emoji }}</h2>
+            <p>{% if r.color %}{{ r.color }}{% else %}&nbsp;{% endif %}</p>
+          </div>
+        </a>
+      </div>
+    {% empty %}
+      <p>No reactions yet.</p>
+    {% endfor %}
+  </section>
+{% endblock %}
+

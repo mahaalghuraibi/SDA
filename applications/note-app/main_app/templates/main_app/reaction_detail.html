@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>{{ object.emoji }}</h1>
+  {% if object.color %}<p>Color: {{ object.color }}</p>{% endif %}
+
+  <p>
+    <a href="{% url 'reaction-update' object.pk %}" class="btn warn">Edit</a>
+    <a href="{% url 'reaction-delete' object.pk %}" class="btn danger">Delete</a>
+  </p>
+
+  <p><a href="{% url 'reaction-index' %}">Back to all reactions</a></p>
+{% endblock %}

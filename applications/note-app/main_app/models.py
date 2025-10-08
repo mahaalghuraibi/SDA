@@ -19,3 +19,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment on {self.note.title}"
+
+        
+class Reaction(models.Model):
+    emoji = models.CharField(max_length=5)
+    color = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.emoji
+
+    def get_absolute_url(self):
+        return reverse('reaction-detail', kwargs={'pk': self.id})

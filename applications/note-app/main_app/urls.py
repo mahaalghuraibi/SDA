@@ -9,4 +9,9 @@ urlpatterns = [
     path('notes/create/', views.NoteCreate.as_view(), name='note_create'), 
     path('notes/<int:pk>/update/', views.NoteUpdate.as_view(), name='note_update'), 
     path('notes/<int:pk>/delete/', views.NoteDelete.as_view(), name='note_delete'), 
+    path('reactions/create/', views.ReactionCreate.as_view(), name='reaction-create'),
+    path('reactions/<int:pk>/', views.ReactionDetail.as_view(), name='reaction-detail'),
+    path('reactions/', views.ReactionList.as_view(), name='reaction-index'),
+    path('reactions/<int:pk>/update/', views.ReactionUpdate.as_view(), name='reaction-update'),
+    path('reactions/<int:pk>/delete/', views.ReactionDelete.as_view(), name='reaction-delete'),
 ]
