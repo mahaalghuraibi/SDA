@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404 , redirect
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
@@ -60,3 +60,20 @@ class ReactionUpdate(UpdateView):
 class ReactionDelete(DeleteView):
     model = Reaction
     success_url = '/reactions/'
+
+def note_detail(request, note_id):
+    note = get_object_or_404(Note, id=note_id)
+    comment_form = CommentForm()
+
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.note = note
+            new_comment.save()
+            return redirect('note_detail', note_id=note.id)
+
+    return render(request, 'notes/detail.html', {
+        'note': note,
+        'comment_form': comment_form
+    })
