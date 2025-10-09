@@ -30,3 +30,13 @@ class Reaction(models.Model):
 
     def get_absolute_url(self):
         return reverse('reaction-detail', kwargs={'pk': self.id})
+
+
+class Photo(models.Model):
+    url = models.CharField(max_length=250)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    note = models.OneToOneField('Note', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Photo for note_id: {self.note.id} @{self.url}"

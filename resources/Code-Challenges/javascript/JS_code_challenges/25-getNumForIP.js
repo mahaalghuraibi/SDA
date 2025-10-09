@@ -17,4 +17,19 @@ getNumForIP( '10.0.0.1' ) // => 167772161
 -----------------------------------------------------------------*/
 // Your solution for 25-getNumForIP here:
 
-export function getNumForIP() {}
+export function getNumForIP(ip) {
+  let parts = ip.split('.') 
+  let total = 0
+
+  for (let i = 0; i < parts.length; i++) {
+    let num = Number(parts[i])
+    total += num * (256 ** (3 - i))
+  }
+
+  return total
+}
+
+console.log(getNumForIP('0.0.0.1'))       
+console.log(getNumForIP('0.0.2.0'))       
+console.log(getNumForIP('192.156.99.15')) 
+console.log(getNumForIP('10.0.0.1'))     

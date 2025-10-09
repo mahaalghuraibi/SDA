@@ -48,7 +48,6 @@
   margin-bottom: 10px;
 }
 
-/* 💬 Form Style */
 form.subsection-content {
   margin: 15px 0;
 }
@@ -103,3 +102,6 @@ form.subsection-content button:hover {
   background-color: #fffafc;
 }
 
+.note-img img {
+  max-width: 500px;
+}

@@ -17,4 +17,28 @@ isWinningTicket( [ ['ABC', 66], ['dddd', 15], ['Hello', 108] ] ) // => false
 -----------------------------------------------------------------*/
 // Your solution for 24-isWinningTicket here:
 
-export function isWinningTicket() {}
+export function isWinningTicket(ticket) {
+  for (let i = 0; i < ticket.length; i++) {
+    let string = ticket[i][0]
+    let number = ticket[i][1]
+    let found = false
+
+    for (let j = 0; j < string.length; j++) {
+      if (string.charCodeAt(j) === number) {
+        found = true
+        break
+      }
+    }
+
+    if (!found) {
+      return false
+    }
+  }
+
+  return true
+}
+
+console.log(isWinningTicket([ ['ABC', 65] ])) 
+console.log(isWinningTicket([ ['ABC', 999], ['XY', 89] ])) 
+console.log(isWinningTicket([ ['ABC', 66], ['dddd', 100], ['Hello', 108] ])) 
+console.log(isWinningTicket([ ['ABC', 66], ['dddd', 15], ['Hello', 108] ])) 
