@@ -1,10 +1,13 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 class Note(models.Model):
     title = models.CharField(max_length=100)
     body = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.title
@@ -24,6 +27,7 @@ class Comment(models.Model):
 class Reaction(models.Model):
     emoji = models.CharField(max_length=5)
     color = models.CharField(max_length=20)
+    note = models.ForeignKey('Note', related_name='reactions', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.emoji

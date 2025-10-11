@@ -121,3 +121,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# الأوقات على الرياض مع دعم المناطق الزمنية
+TIME_ZONE = 'Asia/Riyadh'
+USE_TZ = True
+
+STATIC_URL = 'static/'
+
+LOGIN_URL = 'home'
+
+LOGIN_REDIRECT_URL = 'notes_index'
+LOGOUT_REDIRECT_URL = 'home'

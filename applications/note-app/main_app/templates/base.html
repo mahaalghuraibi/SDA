@@ -14,19 +14,29 @@
 
 <body>
   <header>
-   
+
 
     <nav>
       <ul>
-        <li><a href="{% url 'about' %}">About</a></li>
-        <li><a href="{% url 'notes_index' %}">All Notes</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'notes_index' %}">All My Notes</a></li>
         <li><a href="{% url 'note_create' %}">Add a Note</a></li>
-        <li><a href="{% url 'reaction-create' %}">Add a Reaction</a></li>
-        <li><a href="{% url 'reaction-index' %}">All Reactions</a></li>
-        <li><a href="{% url 'reaction-create' %}">Add a Reaction</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li>
+          <form id="logout-form" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Log out</button>
+          </form>
+        </li>
 
+        {% else %}
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'home' %}">Log In</a></li>
+        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
       </ul>
     </nav>
+
   </header>
 
   <main>

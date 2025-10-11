@@ -17,18 +17,33 @@
 
     <h3>Change {{ note.title }}'s photo</h3>
     <form action="{% url 'add_photo' note.id %}" method="POST" class="subsection-content" autocomplete="off">
-        {% csrf_token %} 
-        {{ photo_form.as_p }}
-        <button type="submit" class="btn submit">Add Photo</button>
+      {% csrf_token %}
+      {{ photo_form.as_p }}
+      <button type="submit" class="btn submit">Add Photo</button>
     </form>
 
+    <h3>Add a reaction to this note</h3>
+    <form action="{% url 'add_reaction' note.id %}" method="post" class="subsection-content" autocomplete="off">
+      {% csrf_token %}
+      <label for="emoji" class="emoji-label">Reaction:</label>
+      <select id="emoji" name="emoji">
+        <option value="like">👍 Like</option>
+        <option value="love">❤️ Love</option>
+        <option value="laugh">😂 Laugh</option>
+      </select>
+      <button type="submit">Add</button>
+    </form>
+    <p class="counts">
+      <span>👍 {{ like_count }}</span>
+      <span>❤️ {{ love_count }}</span>
+      <span>😂 {{ laugh_count }}</span>
+    </p>
   </div>
 
   <div class="note-img">
-    {% if note.photo %}
-      <img src="{{ note.photo.url }}" alt="Photo for {{ note.title }}" class="note-img" />
-    {% else %}
-      <img src="{% static 'images/default-note.png' %}" alt="Default note image" />
+    {% if note.photo and note.photo.url %}
+    <img src="{{ note.photo.url }}" alt="Photo for {{ note.title }}" class="note-img"
+      onerror="this.style.display='none'" />
     {% endif %}
   </div>
 
@@ -54,12 +69,14 @@
         </thead>
         <tbody>
           {% for comment in note.comment_set.all %}
-            <tr>
-              <td>{{ comment.text }}</td>
-              <td>{{ comment.created_at|date:"Y-m-d H:i" }}</td>
-            </tr>
+          <tr>
+            <td>{{ comment.text }}</td>
+            <td>{{ comment.created_at|date:"Y-m-d H:i" }}</td>
+          </tr>
           {% empty %}
-            <tr><td colspan="2">No comments yet.</td></tr>
+          <tr>
+            <td colspan="2">No comments yet.</td>
+          </tr>
           {% endfor %}
         </tbody>
       </table>
