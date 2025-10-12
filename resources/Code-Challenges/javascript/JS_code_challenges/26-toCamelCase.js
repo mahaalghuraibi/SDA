@@ -14,4 +14,21 @@ toCamelCase( 'A_b_c' ) // => 'ABC'
 -----------------------------------------------------------------*/
 // Your solution for 26-toCamelCase here:
 
-export function toCamelCase() {}
+export function toCamelCase(str) {
+  let result = ''
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === '-' || str[i] === '_') {
+      result += str[i + 1].toUpperCase()
+      i++
+    } else {
+      result += str[i]
+    }
+  }
+  return result
+}
+
+console.log(toCamelCase('wdi-rocks'))
+console.log(toCamelCase('banana_Turkey_potato'))
+console.log(toCamelCase('Mama-mia'))
+console.log(toCamelCase('A_b_c'))
+
