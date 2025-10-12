@@ -1,7 +1,14 @@
 import os
-import bank
-import customer
-import seed
+import seed as seed
+from bank import Bank
+from customer import Customer
+from history import History
+
+### TO-DO
+## REFACTOR TRANSFERS
+## ADD HISTORY ENTRIES
+## DISPLAY FULL HISTORY ENTRIES LIST
+## DISPLAY DETAIL / QUIT
 
 ############################# HELPER FUNCTION #############################################
 def show_dict_items(dictionary):
@@ -9,19 +16,21 @@ def show_dict_items(dictionary):
 
 ############################# APPLICATION START #############################################
 def app():
-    if not os.path.exists("./bank.csv"):
-        seed.generate_seed_data()    
+    # ENSURE BANK.CSV FILE EXISTS / IS SEEDED
+    if not os.path.exists(Bank.filename):
+        seed.generate_bank_seed_data(Bank.filename, Bank.fieldnames) 
+    if not os.path.exists(History.filename):
+        seed.generate_history_seed_data(History.filename, History.fieldnames)
 
-    # state variables
-    bank.Bank.load_data()
-    user_session = None
-    user = None
+    # LOAD BANK ACCOUNTS and HISTORY ENTRIES
+    Bank.load_accounts()
+    History.load_history()
 
-    # START SESSION - USER or NO USER??
-    while user_session != "Q":
+    # START SESSION
+    while Bank.user_session != "Q":
         
         # NO USER => SIGNUP or LOGIN
-        while user == None and user_session != "Q":
+        while Bank.user == None and Bank.user_session != "Q":
             non_user_options = {"1": "Create an account.", "2": "Login", "Q": "Exit\n"}
             non_user_choice = None
 
@@ -29,77 +38,79 @@ def app():
                 non_user_choice = input(f"Welcome to Gotham Banking.\n\nPlease select one of the following options.\n{show_dict_items(non_user_options)}")
 
                 if non_user_choice == "1":
-                    user = bank.Bank.signup()
+                    Bank.signup()
 
                 if non_user_choice == "2":
-                    user = bank.Bank.login()
+                    Bank.login()
+
+                if non_user_choice == "Q":
+                    Bank.user_session = "Q"
 
                 if non_user_choice not in non_user_options.keys():
                     print("\n**Please choose a valid option**\n")
 
-                if non_user_choice == "Q" or user == "Q":
-                    user_session = "Q"
 
-        # USER => CREATE ONE NEW ACCT or HAS BOTH ACCOUNT TYPES
-        while isinstance(user, customer.Customer) and user_session != "Q":
+        # USER => CREATE NEW ACCT, HAS BOTH ACCOUNT TYPES, ACCT DEACTIVATED
+        while isinstance(Bank.user, Customer) and Bank.user_session != "Q":
             activated_user_options = {"1": "Checking", "2": "Savings", "Q": "Exit\n"}
             deactivated_user_options = {"Y": "Yes", "Q": "Exit\n"}
 
+
             # USER ACCOUNT DEACTIVATED
-            if not user.active:
+            if not Bank.user.active:
                 user_choice = None
 
                 while user_choice not in deactivated_user_options.keys():
-                    accts_to_reactivate = bank.Bank.show_account_not_active_info(user)
+                    accts_to_reactivate = Bank.show_account_not_active_info()
                     user_choice = input(f"Would you like to reactivate your account?\n{show_dict_items(deactivated_user_options)}")
 
                     if user_choice == "Y":
-                        user = bank.Bank.reactivate_account(user, accts_to_reactivate)
+                        Bank.reactivate_accounts(accts_to_reactivate)
+
+                    if user_choice == "Q":
+                        Bank.user_session = "Q"
 
                     if user_choice not in deactivated_user_options.keys():
-                        print("**Please choose a valid option**")
+                        print("**Please choose a valid option**\n")
 
-                    if user_choice == "Q" or user == "Q":
-                        user_session = "Q"
                 
             # BOTH ACCOUNTS => ACCESS EITHER
-            if type(user.checking) is int and type(user.savings) is int and user.active:
+            if type(Bank.user.checking) is int and type(Bank.user.savings) is int and Bank.user.active:
                 user_choice = None
                 
-                while user_choice not in activated_user_options.keys() and user_session != "Q" or user_choice == "Y":
+                while user_choice not in activated_user_options.keys() and Bank.user_session != "Q":
                     user_choice = input(f"\nWhich account would you like to access?\n{show_dict_items(activated_user_options)}")
 
-                    if user_choice == "1" or user_choice == "2": 
-                        user = bank.Bank.access_existing_account(user, activated_user_options[user_choice])
+                    if user_choice == "1" or user_choice == "2" and Bank.user_session != "Q": 
+                        Bank.access_existing_account(activated_user_options[user_choice])
 
-                    if user_choice not in activated_user_options.keys() and user_choice != "Y":
+                    if user_choice not in activated_user_options.keys():
                         print("\n**Please choose a valid option**\n")
-
-                    if user_choice == "Q" or user == "Q":
-                        user_session = "Q"
 
             # ONE ACCOUNT => ACCESS ONE or CREATE OTHER
             else:
                 user_choice = None
 
-                while user_choice not in activated_user_options.keys() and user_session != "Q" and user_choice != "Q" or user_choice == "Y":
-                    acct_open     = "1" if type(user.checking) is int else "2"
-                    acct_not_open = "1" if type(user.savings)  is int else "2"
-                    user_choice   = input(f"\nWould you like to:\n1: Access Your {activated_user_options[acct_open]} Account\n2: Open a {activated_user_options[acct_not_open]} Account\nQ: Exit\n:: User Choice => ")
+                # FIND WHICH ACCT USER HAS
+                while user_choice not in activated_user_options.keys() and Bank.user_session != "Q":
+                    acct_open     = "1" if type(Bank.user.checking) is int else "2"
+                    acct_not_open = "1" if type(Bank.user.savings)  is int else "2"
+                    options       = { "1": f"Access your {activated_user_options[acct_open]} account.", "2": f"Open a {activated_user_options[acct_not_open]} account.", "Q": "Exit\n"}
+                    user_choice   = input(f"\nWould you like to:\n{show_dict_items(options)}")
 
                     if user_choice == "1":
-                        user = bank.Bank.access_existing_account(user, activated_user_options[acct_open])
-                        user_choice = bank.Bank.ask_another_transaction("Would you like another transaction?")
+                        Bank.access_existing_account(activated_user_options[acct_open])
+                        Bank.ask_another_transaction()
 
                     if user_choice == "2":
-                        user = bank.Bank.create_new_account_type(user, activated_user_options[acct_not_open])
-                        user_choice = bank.Bank.ask_another_transaction("Would you like another transaction?")
+                        Bank.create_new_account_type(activated_user_options[acct_not_open])
+                        Bank.ask_another_transaction()
 
-                    if user_choice not in activated_user_options.keys() and user_choice != "Y":
+                    if user_choice == "Q":
+                        Bank.user_session = "Q"
+
+                    if user_choice not in activated_user_options.keys():
                         print("\n**Please choose a valid option**\n")
-
-                    if user_choice == "Q" or user == "Q":
-                        user_session = "Q"
 
     # Exit / Goodbye!  
     print("Thank you for visiting Gotham Bank! Have a nice day!")

@@ -1,32 +1,44 @@
-import bank
 
 ############################# HELPER FUNCTION #############################################
 def show_dict_items(dictionary):
     return "\n".join([ f"{key}: {val}" for key, val in dictionary.items()])+":: User Choice => "
 
+def invalid(item):
+    options = { "number": "\nPlease choose a valid amount.", "choice": "\nPlease choose a valid option." }
+    return options[item]
+
 ############################# TRANSACTIONS CLASS #############################################
 
 class Transactions():
+    user = None
+    user_session = None
+    update_accounts = None
+    find_acct = None
+    fee = 35
 
     def __init__(self):
         pass
 
     @classmethod
-    def withdraw(self, user, acct, transfer):
-        fee = 35
-        withdraw_amt = None
-        will_overdraft = False
-        proceed_with_action = False
-        acct = acct.lower()
-        opposite_acct = "savings" if acct == "checking" else "checking"
-        curr_acct_balance = getattr(user, acct.lower())
-        maximum = self.calculate_max_withdraw(user, curr_acct_balance)
+    def get_balance(cls, acct_type):
+        balance = getattr(Transactions.user, acct_type)
+        print(f"Your current {acct_type} account balance is: {balance}")
 
+    @classmethod
+    def withdraw(cls, acct, transfer=False):
+        will_overdraft = False
+        acct = acct.lower()
+        withdraw_amt = None
+
+        # CHECK USER WITHDRAW WINDOW
+        curr_acct_balance = getattr(Transactions.user, acct.lower())
+        maximum = cls.calculate_max_withdraw(curr_acct_balance)
         if maximum == 0:
-            print("\nApologies, but you are unable to withdraw money at this time due to insufficient funds. Please deposit more money into your account.")
+            print("\nApologies, but you are unable to withdraw money at this time due to insufficient funds.\nPlease deposit more money into your account.")
             return "Q"
 
-        while withdraw_amt != "Q" and type(withdraw_amt) is not int:
+        # REQUEST WITHDRAW AMOUNT
+        while type(withdraw_amt) is not int and withdraw_amt != "Q":
             try:
                 withdraw_amt = input(f"\nPlease enter the amount you would like to {'transfer' if transfer else 'withdraw'} from your {acct} account.\nYour current balance is {curr_acct_balance}. The maximum amount of money you may {'transfer' if transfer else 'withdraw'} is {maximum}\n:: Withdraw Amount =>  ")
                 withdraw_amt = int(withdraw_amt)
@@ -40,58 +52,47 @@ class Transactions():
                 
             except ValueError as e:
                 print(e)
-                print("Please provide an actual number.")
+                print(invalid("number"))
                 withdraw_amt = None
 
-        while proceed_with_action not in [True, "Q", "Y"]:
-            proceed_options = {"Y": "Yes", "Q": "Quit\n"}
-            intial_input = f"\nThe following transaction will decuct {withdraw_amt} from your {acct}{f' and initiate a transfer. This cannot be cancelled once you confirm.' if transfer else '.'}"
-            if withdraw_amt == "Q":
-                return "Q"
-            if curr_acct_balance - withdraw_amt < 0:
-                will_overdraft = True
-            if will_overdraft:
-                intial_input += "\nThis withdrawal transaction will result in an overdraft fee of $35."
-            if will_overdraft and user.overdraft_count + 1 >= 2:
-                intial_input += "\nAdditionally your account will be deactivated due to excess overdraft."
-            
-            intial_input += f"\nPlease confirm the transaction with\n{show_dict_items(proceed_options)}"
-            proceed = input(intial_input)
-            if proceed == "Y":
-                proceed_with_action = True
-            if proceed == "Q":
-                return "Q"
-            
-
-        # UPDATE USER AND BANK ACCT INFO
-        if proceed_with_action:
-            update_amt = curr_acct_balance - withdraw_amt
-
-            if will_overdraft and update_amt < 0:
-                update_amt = update_amt - fee
-                user.overdraft_count += 1
-
-            if user.overdraft_count >= 2:
-                user.active = False
-
-            setattr(user, acct, update_amt)
-
-            # UPDATE BANKING DATA
-            for c in bank.Bank.customers:
-                if c.id == user.id:
-                    c.checking = user.checking
-                    c.savings = user.savings
-                    c.active = user.active
-                    c.overdraft_count = user.overdraft_count
-
-            bank.Bank.update_data()
-
-            print(f"\nThe withdraw amount of ${withdraw_amt} from your {acct} was successful.\nThe resulting balance is ${update_amt}")
-
-        # RETURN UPDATED USER
-        return user
+        # CALCULATE OVERDRAFT / DEACTIVATION / PROMPT PROCEED
+        proceed_msg = f"\nThe following transaction will {'transfer' if transfer else 'withdraw'} {withdraw_amt} from your {acct} account."
+        if curr_acct_balance - withdraw_amt < 0:
+            will_overdraft = True
+        if will_overdraft:
+            proceed_msg += "\nThis transaction will result in an overdraft fee of $35."
+        if will_overdraft and Transactions.user.overdraft_count + 1 >= 2:
+            proceed_msg += "\nAdditionally your account will be deactivated due to excess overdraft."
         
+        # CONFIRM USER WANTS TO PROCEED
+        proceed_options = {"Y": "Yes", "Q": "Quit\n"}
+        proceed_choice = None
+        while proceed_choice not in proceed_options:
+            proceed_choice = input(f"{proceed_msg}\nWould you like to proceed with the {'transfer' if transfer else 'withdraw'}?\n{show_dict_items(proceed_options)}")
+            if proceed_choice == "Q":
+                Transactions.user_session = "Q"
+                return "Q"
+            if proceed_choice not in proceed_options:
+                print(invalid("choice"))
+            
+        # UPDATE USER AND BANK ACCT INFO
+        update_amt = curr_acct_balance - withdraw_amt
 
+        if will_overdraft:
+            update_amt = update_amt - Transactions.fee
+            Transactions.user.overdraft_count += 1
+
+        if Transactions.user.overdraft_count >= 2:
+            Transactions.user.active = False
+
+        setattr(Transactions.user, acct, update_amt)
+        Transactions.update_accounts()
+
+        print(f"\nThe {'transfer' if transfer else 'withdraw'} amount of ${withdraw_amt} from your {acct} was successful with a resulting balance of ${update_amt}")
+        return withdraw_amt
+
+        
+    @classmethod
     def calculate_max_withdraw(self, curr_acct_balance):
         if curr_acct_balance > 35:
             return 100
@@ -104,129 +105,142 @@ class Transactions():
 
 
     @classmethod
-    def deposit(self, user, acct, reactivate, add_amt, transfer, external):
+    def deposit(cls, acct, transfer=False, internal=True, deposit_amt=0, ext_acct=None, ext_acct_type=None):
         acct = acct.lower()
-        deposit_amt = add_amt if transfer else None
-        external_acct = None
-        external_acct_choice = None
-        external_acct_choices = []
 
-        # SET INPUT MSG:
         if not transfer:
-            input_msg = ""
-            if reactivate:
-                input_msg += f"You must deposit at least {abs(getattr(user, acct))} to into your {acct} account. How much would you like to deposit?\n:: Deposit amount => "
-            else:
-                input_msg += f"\nHow much would you like to deposit into your {acct} account?\n:: Deposit amount => "
-    
-            # GET DEPOSIT AMOUNT
-            while deposit_amt != "Q" and type(deposit_amt) is not int:
-                deposit_amt = input(input_msg)
-                try:
-                    if deposit_amt == "Q":
-                        return "Q"
-                    deposit_amt = int(deposit_amt)
-                except ValueError:
-                    print("\n**Please enter a real number**")
-        
-        if transfer and external:
-            acct_id_validated = False
-            acct_id_input = None
-            while acct_id_input != "Q" and not acct_id_validated and type(acct_id_input) is not int :
-                try:
-                    acct_id_input = input("\nPlease enter the account number of the account you would like to transfer to.\n:: User Input => ")
-                    acct_id_input = int(acct_id_input)
-
-                    for c in bank.Bank.customers:
-                        if c.id == acct_id_input:
-                            acct_id_validated = True
-                            external_acct = c
-                            if type(c.checking) == int:
-                                external_acct_choices.append("checking")
-                            if type(c.savings) == int:
-                                external_acct_choices.append("savings")
-
+            while (type(deposit_amt) is not int or deposit_amt <= 0) and deposit_amt != "Q":
+                deposit_amt = input("Please enter the amount you would like to deposit =>  ")
+                
+                if deposit_amt == "Q":
+                    Transactions.user_session = "Q"
+                    return
                     
-                    if not acct_id_validated:
-                        print("Please enter a valid account number to transfer to.")
-                        acct_id_input = None
+                if not deposit_amt.isdigit():
+                    print(invalid("number"))
+                    deposit_amt = 0
+                    continue
+                
+                deposit_amt = int(deposit_amt)
+                if deposit_amt <= 0:
+                    print(invalid("number"))
+        
 
-                except ValueError as e:
-                    print("\n**Please enter a real number.**")
-
-            if len(external_acct_choices) == 2:
-                external_acct_input = None
-                while external_acct_input not in ["1", "2", "Q"]:
-                    external_acct_input = input(f"\nPlease choose the account to transfer to.\n(1) Checking.\n(2) Savings\n(Q) Quit\n:: User Choice => ")
-                    if external_acct_input == "1":
-                        external_acct_choice = 'checking'
-                    if external_acct_input == "2":
-                        external_acct_choice = 'savings'
-                    if external_acct_input == "Q":
-                        return "Q"
-            else:
-                external_acct_choice = external_acct_choices[0]
-            
-
-        if not external:
-            curr_amt = getattr(user, acct)
+        if internal:
+            curr_amt = getattr(Transactions.user, acct)
             update_amt = curr_amt + deposit_amt
-            setattr(user, acct, update_amt)
-            for c in bank.Bank.customers:
-                if c.id == user.id:
-                    c.checking = user.checking
-                    c.savings = user.savings
+            setattr(Transactions.user, acct, update_amt)
+            print(f"\n{deposit_amt} has been added to your {acct} with a resulting balance of {update_amt}")
 
-        if external:
-            curr_amt = getattr(external_acct, external_acct_choice)
-            update_amt = curr_amt + add_amt
-            for c in bank.Bank.customers:
-                if c.id == external_acct.id:
-                    setattr(c, external_acct_choice, update_amt)
 
-        bank.Bank.update_data()
+        if not internal:
+            curr_amt = getattr(ext_acct, ext_acct_type)
+            update_amt = curr_amt + deposit_amt
+            setattr(ext_acct, ext_acct_type, update_amt)
+            print(f"\n{deposit_amt} has been added to acct number {ext_acct.id}'s {ext_acct_type} with a resulting balance of {update_amt}")
 
-        print(f"\nThe {'transfer' if transfer else 'deposit'} of ${deposit_amt} into { f'account number {external_acct.id}' if external else f'your {acct}'} was successful.\nThe resulting balance is ${update_amt}")
-
-        # RETURN UPDATED USER
-        return user
+        Transactions.update_accounts()
+        return
                 
     @classmethod
-    def transfer(self, user, acct):
-        reactivate = False
-        transfer = True
-        external = False
+    def transfer(cls, acct):
         acct = acct.lower()
-        opposite_acct = "savings" if acct == "checking" else "checking"
+        trans_type = None
+        opp_acct = "savings" if acct == "checking" else "checking"
+        ext_acct = None
+        account_type_to_transfer_to = None
 
-        action= None
-        options = ["Q", "1", "2"]
-        while action not in options:
-            action = input(f"\nWhich transfer would you like to do?\n(1) From your {acct} account to your {opposite_acct} account?\n(2) From your {acct} account to an external account?\n(Q) Quit\n:: User Choice => ")
+        # TRANSFER OPTIONS -> 
+        # IF USER HAS BOTH ACCT TYPES -> CAN TRANSFER FROM ONE TO OTHER
+        if type(cls.user.checking) == int and type(cls.user.savings):
+            trans_type_options = { "1": f"Transfer from {acct} to {opp_acct}", "2": f"Transfer from {acct} to an external account.", "Q": "Quit\n" }
+            trans_type_choice = None
+            while trans_type_choice not in trans_type_options and trans_type_choice != "Q":
+                trans_type_choice = input(f"\nWhich transfer would you like to do?\n{show_dict_items(trans_type_options)}")
 
-            if action == "Q":
-                return "Q"
-            
-            if action not in options:
-                print("\n**Invalid option, please try again.**")
-                action = None
+                if trans_type_choice == "1":
+                    trans_type = "internal"
+                if trans_type_choice == "2":
+                    trans_type = "external"
+                if trans_type_choice == "Q":
+                    Transactions.user_session = "Q"
+                    return
+                if trans_type_choice not in trans_type_options:
+                    invalid("choice")
 
-        if action == "1" or action == "2":
-            previous_amt = getattr(user, acct)
-            user = Transactions.withdraw(user, acct, transfer)
+        # ELSE USER CAN ONLY TRANSFER FROM ONE ACCOUNT TO ANOTHER ACCOUNT
+        if trans_type == "external":
+            valid_ext_id = False
+            while not valid_ext_id:
+                ext_acct = input("\nPlease enter the id of the account you would like to transfer to or 'Q' to quit. => ")
 
-            if user == "Q":
-                return "Q"
-            
-            if action == "2":
-                external = True
+                # STR(ID) IS A NUMBER / SEARCH IF IT IS IN THE DB (CSV)
+                if ext_acct.isdigit():
+                    ext_acct = int(ext_acct)
+                    account_found = cls.find_acct(ext_acct)
+
+
+                    # ACCOUNT FOUND WITH ID
+                    if account_found:
+                        valid_ext_id = True
+                        ext_acct = account_found
+
+                        print(ext_acct, "188 account found!", account_found.checking, isinstance(account_found.checking, int), type(account_found.savings), isinstance(account_found.savings, int))
+
+                        # BOTH -> REQUIRES CHOICE!
+                        
+                        if type(account_found.checking) == int and type(account_found.savings) == int:
+                            account_choice_options = { "1": "Checking", "2": "Savings", "Q": "Quit" }
+                            account_choice = None
+                            while account_choice not in account_choice_options and account_choice != "Q":
+                                account_choice = input(f"\nPlease choose the account type you would like to transfer to.\n{show_dict_items(account_choice_options)}")
+                                if account_choice == "Q":
+                                    cls.user_session = "Q"
+                                    return
+                                if account_choice == "1":
+                                    account_type_to_transfer_to = "checking"
+                                if account_choice == "2":
+                                    account_type_to_transfer_to = "savings"
+                                if account_choice not in account_choice_options:
+                                    invalid("choice")
+
+                        # ONLY CHECKING
+                        elif type(account_found.checking) == int and type(account_found.savings) == bool:
+                            account_type_to_transfer_to = "checking"
+                        # ONLY SAVINGS
+                        elif type(account_found.savings) == int and type(account_found.checking) == bool:
+                            account_type_to_transfer_to = "savings"
+                
+                if ext_acct == "Q":
+                    cls.user_session = "Q"
+                    return
         
-            new_amt = getattr(user, acct)
-            add_amt = previous_amt - new_amt
+        # ASK HOW MUCH TO TRANSFER / COMPLETE THIS STEP
+        amount_to_deposit = Transactions.withdraw(acct, transfer=True)
 
-            user = Transactions.deposit(user, opposite_acct, reactivate, add_amt, transfer, external)
+        # RETURN IF 'Q' OR NOT ACTUAL AMOUNT
+        if type(amount_to_deposit) is not int or amount_to_deposit == "Q":
+            Transactions.user_session = "Q"
+            return
+    
+        # DEPOSIT INTO INTERNAL
+        if trans_type == "internal":
+            Transactions.deposit(opp_acct, transfer=True, internal=True, deposit_amt=amount_to_deposit)
+            return
 
-            if user == "Q":
-                return "Q"
 
-        return user
+        # DEPOSIT INTO EXTERNAL
+        if trans_type == "external":
+            print("231", ext_acct, account_type_to_transfer_to)
+            Transactions.deposit(acct, transfer=True, internal=False, deposit_amt=amount_to_deposit, ext_acct=ext_acct, ext_acct_type=account_type_to_transfer_to)
+            return
+
+        print("Transfer complete!\n")
+        return
+
+
+
+    
+
+
+

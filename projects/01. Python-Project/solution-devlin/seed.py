@@ -11,13 +11,12 @@ customers = [
     { 'id': 10007, "first_name": 'James ',  'last_name': "Taylor",    "password": "#@FG",      "checking": -10,   "savings": 0,       "active": False, "overdraft_count": 2 },
     { 'id': 10008, "first_name": 'Melvin ', 'last_name': "Gordon",    "password": "GD4dS",     "checking": -35,   "savings": 2567,    "active": True,  "overdraft_count": 1 },
     { 'id': 10009, "first_name": 'Stacey ', 'last_name': "Abrams",    "password": "!fiuenrg",  "checking": False, "savings": 3452345, "active": True,  "overdraft_count": 1 },
-    { 'id': 100010, "first_name": 'Jake ',  'last_name': "Paul",      "password": "wegtr",     "checking": 10000, "savings": -10,     "active": True,  "overdraft_count": 0 },
+    { 'id': 10010, "first_name": 'Jake ',  'last_name': "Paul",      "password": "wegtr",     "checking": 10000, "savings": -10,     "active": True,  "overdraft_count": 0 },
 ]
 
-fieldnames = ['id', "first_name", 'last_name', "password", "checking", "savings", "active", "overdraft_count"]
-
-def generate_seed_data():
-    with open("./bank.csv", 'w', newline='') as csvfile:
+def generate_bank_seed_data(filename, fieldnames):
+    print("load bank data")
+    with open(filename, 'w', newline='') as csvfile:
         try:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
@@ -25,3 +24,13 @@ def generate_seed_data():
                 writer.writerow(row)
         except csv.Error as e:
             print(e)
+
+def generate_history_seed_data(filename, fieldnames):
+    print("load history data")
+    with open(filename, 'w', newline='') as csvfile:
+        try:
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+        except csv.Error as e:
+            print(e)
+

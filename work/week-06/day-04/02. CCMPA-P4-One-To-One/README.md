@@ -23,7 +23,7 @@ class Photo(models.Model):
     # below will add an update property that will update the date each time the object is updated.
     updated_at = models.DateField(auto_now=True)
     # like the feeding model - we will delete any related images if a Cat is deleted
-    cat = models.OneToOne(Cat, on_delete=models.CASCADE)
+    cat = models.OneToOneField(Cat, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Photo for cat_id: {self.cat.id} @{self.url}"
@@ -115,7 +115,7 @@ from .models import Feeding, Photo
 class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ['url', 'title']
+        fields = ['url']
 ```
 
 ## Passing an instance of `PhotoForm`
