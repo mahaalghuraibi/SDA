@@ -17,4 +17,14 @@ countTheBits( 65535 )  //=> 16
 -----------------------------------------------------------------*/
 // Your solution for 27-countTheBits here:
 
-export function countTheBits() {}
+export function countTheBits(num) {
+  const binary = num.toString(2)
+  const count = binary.split('1').length - 1
+  return count
+}
+
+console.log(countTheBits(0))
+console.log(countTheBits(13))
+console.log(countTheBits(256))
+console.log(countTheBits(255))
+console.log(countTheBits(65535))
