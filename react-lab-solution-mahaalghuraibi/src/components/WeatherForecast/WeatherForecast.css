@@ -1,26 +1,73 @@
-
-section {
+.forecast-list {
   display: flex;
-  gap: 12px;             
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .weather {
+  width: 150px;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid #ccc;
-  flex: 1;
-  padding: 10px;
-  text-align: center;
+}
+.weather:hover {
+  transform: translateY(-4px);
+  cursor: pointer;
+}
+
+.weather-header {
+  user-select: none;
+}
+
+.details.hidden {
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.details.visible {
+  visibility: visible;
+  max-height: 120px;
+}
+
+.remove-btn {
+  margin-top: 8px;
+  border: none;
+  background: #c5dafd;
+  color: black;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.remove-btn:hover {
+  filter: brightness(0.95);
 }
 
 .weather span {
   font-weight: bold;
 }
 
-.weather img {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 8px;
+.weather.sunny {
+  background: linear-gradient(135deg, #FFD54F, #FFB300);
 }
 
+.weather.clear {
+  background: linear-gradient(135deg, #4FC3F7, #475861);
+}
+
+.weather.stormy {
+  background: linear-gradient(135deg, #616161, #979292);
+}
+
+.weather.overcast {
+  background: linear-gradient(135deg, #c5e2f0, #5593b3);
+}
+
+.weather.cloudy {
+  background: linear-gradient(135deg, #5798b9, #607D8B);
+}
