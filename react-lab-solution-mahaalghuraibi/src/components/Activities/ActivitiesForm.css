@@ -1,0 +1,31 @@
+.activity-form {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.activity-form input {
+  padding: 8px;
+  border: 1px solid lightblue;
+  border-radius: 5px;
+  background-color: #e6f4ff; 
+}
+
+.activity-form input:focus {
+  border-color: #42a5f5;
+  outline: none;
+}
+
+.activity-form button {
+  background-color: #42a5f5; 
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.activity-form button:hover {
+  background-color: #1e88e5;
+}

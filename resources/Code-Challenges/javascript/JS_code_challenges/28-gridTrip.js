@@ -16,4 +16,37 @@ gridTrip( [-22, 100], 'L2L15D50U1D9') //=> [-80, 83]
 -----------------------------------------------------------------*/
 // Your solution for 28-gridTrip here:
 
-export function gridTrip() {}
+export function gridTrip(start, moves) {
+  let x = start[0];
+  let y = start[1];
+  let i = 0;
+
+  while (i < moves.length) {
+    let direction = moves[i];
+    i = i + 1;
+    let number = "";
+
+    while (i < moves.length && !isNaN(moves[i])) {
+      number = number + moves[i];
+      i = i + 1;
+    }
+
+    let amount = Number(number);
+
+    if (direction === 'U') {
+      x = x + amount;
+    } else if (direction === 'D') {
+      x = x - amount;
+    } else if (direction === 'R') {
+      y = y + amount;
+    } else if (direction === 'L') {
+      y = y - amount;
+    }
+  }
+
+  return [x, y];
+}
+
+console.log(gridTrip([0, 0], 'U2R1'));
+console.log(gridTrip([5, 10], 'D5L15U2'));
+console.log(gridTrip([-22, 100], 'L2L15D50U1D9'));

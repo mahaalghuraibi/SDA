@@ -1,30 +1,48 @@
-import { useState } from "react";
-import "./App.css";
+import { useState } from 'react';
 
 const App = () => {
-  const [theme, setTheme] = useState("light");
-
-  
-  const [info, setInfo] = useState({
-    firstName: "Maha",
-    lastName: "Alghuraibi",
-    age: 25,
-    hasPets: false
+  const [title, setTitle] = useState('The full name will appear here.');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
   });
 
-  return (
-    <div className={theme}>
-      <p>
-        my name is {info.firstName} {info.lastName}, i am {info.age} years old.
-      </p>
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-      <div>
-        <button onClick={() => setTheme("light")}>light mode ☀️</button>
-        <button onClick={() => setTheme("dark")}>dark mode 🌙</button>
-        <button onClick={() => setTheme("neon")}>neon mode 💚</button>
-        <button onClick={() => setTheme("night")}>night mode 🌌</button>
-      </div>
-    </div>
+  return (
+    <>
+      <h2>{title}</h2>
+
+      <form>
+        <label htmlFor="firstName">First Name: </label>
+        <input
+          id="firstName"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="lastName"> Last Name: </label>
+        <input
+          id="lastName"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+        />
+      </form>
+
+      <button
+        type="button"
+        onClick={() =>
+          setTitle(`${formData.firstName} ${formData.lastName}`.trim())
+        }
+      >
+        Show Full Name
+      </button>
+    </>
   );
 };
 
