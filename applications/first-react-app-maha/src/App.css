@@ -40,3 +40,45 @@
 .read-the-docs {
   color: #888;
 }
+/* ثيمات أساسية */
+.light {
+  background-color: #ffffff;
+  color: #333333;
+  border-color: #dddddd;
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease-in-out;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.dark {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  border-color: #34495e;
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease-in-out;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* ✅ الثيمين الجدد */
+.neon {
+  background-color: #0f0f0f;     /* خلفية داكنة */
+  color: #39ff14;                /* نص نيون أخضر */
+  border: 3px solid #39ff14;     /* حدود نيون */
+  text-shadow: 0 0 5px #39ff14;  /* توهج للنص */
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease-in-out;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.night {
+  background-color: #1a1a2e;     /* أزرق ليلي عميق */
+  color: #e0e0e0;                /* نص أبيض ناعم */
+  border: 2px solid #0f3460;     /* حدود أزرق داكن */
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease-in-out;
+  min-height: 100vh;
+  padding: 20px;
+}

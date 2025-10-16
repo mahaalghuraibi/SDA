@@ -1,0 +1,8 @@
+.detail-container{ margin-top:16px }
+.detail-card{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;border:1px solid var(--border);
+  border-radius:12px;padding:16px;background:var(--card);
+}
+.detail-image{ width:100%; max-height:420px; object-fit:contain; background:#000; border-radius:8px }
+.detail-meta p{ margin:8px 0 }
+@media (max-width:800px){ .detail-card{ grid-template-columns:1fr } }

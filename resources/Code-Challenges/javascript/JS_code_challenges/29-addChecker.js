@@ -17,4 +17,20 @@ addChecker( [10, 15, 16, 22], 19 ) // => false
 -----------------------------------------------------------------*/
 // Your solution for 29-addChecker here:
 
-export function addChecker() {}
+export function addChecker(arr, num) {
+  let left = 0
+  let right = arr.length - 1
+
+  while (left < right) {
+    let sum = arr[left] + arr[right]
+    if (sum === num) return true
+    if (sum < num) left++
+    else right--
+  }
+  return false
+}
+
+console.log(addChecker([1, 2], 3))      
+console.log(addChecker([-3, 2], 9))      
+console.log(addChecker([10, 15, 16, 22], 32)) 
+console.log(addChecker([10, 15, 16, 22], 19)) 
