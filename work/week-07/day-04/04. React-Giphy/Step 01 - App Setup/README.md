@@ -7,44 +7,17 @@ We are going to build a searchable interface for the [Giphy API](https://develop
 
 Project setup - nothing new here!
 
-1. Open your Terminal application and navigate to your `~/code/SDA-Ghazal/applications` directory. 
-
-```bash
-npm create vite@latest
-```
-
-1. **Choose a project name:**
-   - Let's name it: `react_giphy`.
-
-2. **Select a framework:**
-   - Use the arrow keys to choose the `React` option and hit `Enter`.
-
-3. **Select a variant:** 
-   - Again, use the arrow keys to choose `JavaScript` and hit `Enter`.
-
-4. **Configuring ESLint**
-
-Before we begin, we need to adjust the ESLint configuration. Add the indicated rules to the `rules` object in your `eslint.config.js` file:
-
-```javascript
-    rules: {
-      ...js.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...react.configs['jsx-runtime'].rules,
-      ...reactHooks.configs.recommended.rules,
-      'react/jsx-no-target-blank': 'off',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
-      'react/prop-types': 'off', // add this line
-      'react/no-unescaped-entities': 'off', // add this line
-    },
-```
-
-- `cd react_giphy`
-- Install Node Modules to access Vite
-- in zsh / bash / gitbash... `npm i`
+1. Navigate to your `~/code/SDA-SIRAJ/applications` directory. 
+2. `npm create vite@latest project-name`
+3. `Select a framework:` => `React`
+4. `Select a variant` => `Javascript`
+5. `Use rolldown-vite (Experimental)?:` => `No`
+6. `Install with npm and start now?:` => `Yes`
+7. Navigate to `localhost:5173` (check app is running)
+8. `ctrl+c` => terminate running application
+9. `cd project-name`
+10. `npm i -D @types/react @types/react-dom` (helps with intellisense / autocomplete!)
+11. `npm run dev` when ready to spin up your app!
 
 1. **Clear `App.jsx`**
 
@@ -61,7 +34,7 @@ export default function App() {
 }
 ```
 
-6. **Running the development server**
+6. **Run the development server**
 
 To start the development server and view our app in the browser, we'll use the following command:
 
@@ -75,55 +48,25 @@ You should see that `Vite` is available on port number 5173:
 localhost:5173
 ```
 
-7. Add JSCONFIG file:
+`ctrl+c` to disconnect the server
 
-[VSCode JSConfig.json File Explanation](https://code.visualstudio.com/docs/languages/javascript#_javascript-projects-jsconfigjson)
+###  Run Build for Production
 
-This file serves to ensure it is clear to the project that the current folder and all sub-folders are part of the current javascript project. 
+- **Purpose:** Compiles your React + Vite project into optimized, production-ready files.  
+- **What it does:**  
+  - Bundles all JavaScript, CSS, and assets into the `dist` folder.  
+  - Minifies and optimizes code for faster loading.  
+  - Handles module resolution, path aliases, and JSX compilation.  
+- **Result:** A set of static files that can be deployed to any web server or hosting service.
 
-The point of creating and including this file is to ensure that your current javascript file can use intellisense. While this isn't that big of a loss if we do not have it, it does make a difference in ensuring we are accessing the files we wish to access. It just makes more sense and is easier to include it and have access to it. 
+**Why you run `npm run build` during project setup:**
 
-In the root of our project directory, let's include a `jsconfig.json` file. 
+- **Verify the setup works:** Ensures Vite, React, JSX, and all configurations (like path aliases and ESLint rules) are correctly processed without errors.  
+- **Catch issues early:** If there are syntax errors, misconfigured imports, or plugin problems, the build will fail, letting you fix them before development.  
+- **Prepare for deployment:** Even in a dev setup, running a build confirms that your project can produce production-ready files when needed.
 
+> Essentially, it’s a quick test that the entire project configuration is correct and functional.
 
-`jsconfig.json`:
-```js
-{
-    "compilerOptions": {
-        "module": "CommonJS",
-        "target": "ES6"
-    },
-    "exclude": [
-        "node_modules"
-    ]
-}
+```bash
+npm run build
 ```
-
-That's it! Adding that file and information should ensure that intellisense is good to go for your Vite / React
-
-## Add JSCONFIG file:
-
-[VSCode JSConfig.json File Explanation](https://code.visualstudio.com/docs/languages/javascript#_javascript-projects-jsconfigjson)
-
-This file serves to ensure it is clear to the project that the current folder and all sub-folders are part of the current javascript project. 
-
-The point of creating and including this file is to ensure that your current javascript file can use intellisense. While this isn't that big of a loss if we do not have it, it does make a difference in ensuring we are accessing the files we wish to access. It just makes more sense and is easier to include it and have access to it. 
-
-In the root of our project directory, let's include a `jsconfig.json` file. 
-
-
-`jsconfig.json`:
-```js
-{
-    "compilerOptions": {
-        "module": "CommonJS",
-        "target": "ES6"
-    },
-    "exclude": [
-        "node_modules"
-    ]
-}
-```
-
-8. That's it! Adding that file and information should ensure that intellisense is good to go for your Vite / React project.
-

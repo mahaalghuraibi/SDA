@@ -1,0 +1,21 @@
+.gif-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5px;
+    margin: 20px;
+    border: 1px solid steelblue;
+    border-radius: 5%;
+}
+
+.gif-card > h5 {
+    margin: 7.5px;
+}
+
+.gif-card > img {
+    max-height: 150px;
+}
+
+.gif-card > a:hover {
+    color: red;
+}

@@ -1,0 +1,15 @@
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    min-width: 100vw;
+    height: 8vh;
+}
+
+.nav-container > form {
+    width: 75%;
+}
+
+.nav-container > form > input {
+    width: 100%;
+}

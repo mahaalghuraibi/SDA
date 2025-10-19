@@ -1,6 +1,6 @@
 <img width="100%" src="https://i.imgur.com/CYx9Es5.png" />
 
-# Full Stack React / Django REST Framework Application / Cat Colletor
+# Full Stack React / Django REST Framework Application / Cat Collector
 
 Today we start our journey of building a full stack web application using React on the front end and Django Rest Framework on the backend. This process will unfold over the course of several days / parts and will combine the tools we learned this week (react) along with a fresh approach to developing a Django server with a slightly different framework. The overall concept is the exact same as our previous Cat Collector, but with a few small changes. 
 
@@ -53,8 +53,28 @@ function App() {
 
 export default App;
 ```
+13.  Run Build for Production
 
-13. Run the development server
+- **Purpose:** Compiles your React + Vite project into optimized, production-ready files.  
+- **What it does:**  
+  - Bundles all JavaScript, CSS, and assets into the `dist` folder.  
+  - Minifies and optimizes code for faster loading.  
+  - Handles module resolution, path aliases, and JSX compilation.  
+- **Result:** A set of static files that can be deployed to any web server or hosting service.
+
+**Why you run `npm run build` during project setup:**
+
+- **Verify the setup works:** Ensures Vite, React, JSX, and all configurations (like path aliases and ESLint rules) are correctly processed without errors.  
+- **Catch issues early:** If there are syntax errors, misconfigured imports, or plugin problems, the build will fail, letting you fix them before development.  
+- **Prepare for deployment:** Even in a dev setup, running a build confirms that your project can produce production-ready files when needed.
+
+> Essentially, it’s a quick test that the entire project configuration is correct and functional.
+
+```bash
+npm run build
+```
+
+14. Run the development server
 
 - `npm run dev`
 

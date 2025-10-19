@@ -109,7 +109,6 @@ We need to update the return statement to reflect the Cat Collector UI that we w
 ```jsx
   import "./App.css"
   import { Route, Routes, Link } from 'react-router';
-  import Link from 
 
 export default function App() {
 
@@ -504,7 +503,6 @@ nav li {
   }
 
   header {
-    margin: 20px 20px 0 20px;
     width: calc(100vw - 40px);
     max-width: 1920px;
     top: 20px;

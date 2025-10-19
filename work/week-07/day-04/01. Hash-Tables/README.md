@@ -6,4 +6,6 @@ This morning we will give you some time to start learning about computer science
 
 <br/><br/>
 
+You can find the ppt presentation [here](../../day-02/01.%20Linked-Lists/Data%20Structures.pdf)
+
 **Feel free to add notes in the notes.txt file in this current folder.**

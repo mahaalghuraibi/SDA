@@ -3,10 +3,11 @@ id,first_name,last_name,password,checking,savings,active,overdraft_count
 10002,Patrick,Troughton,serf,False,200,True,1
 10003,Jon,Pertwee,233!,135,260,True,0
 10004,Tom,Baker,ee,10,False,True,0
-10005,Peter,Davison,werf345,-20,False,False,2
+10005,Peter,Davison,werf345,5,False,True,0
 10006,Suresh,Sigera,wergt,68,False,True,0
-10007,James,Taylor,#@FG,10,250,True,0
+10007,James,Taylor,#@FG,15,205,True,0
 10008,Melvin,Gordon,GD4dS,-35,2567,True,1
 10009,Stacey,Abrams,!fiuenrg,False,3452345,True,1
-10010,Devy10,Boo10,12345,0,40,True,1
+10010,Devy10,Boo10,12345,10,10,True,1
 10011,ddd,bbb,123,5,55,True,0
+10012,Testing,Again,12345,0,10,True,0

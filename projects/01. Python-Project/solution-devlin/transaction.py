@@ -1,3 +1,6 @@
+from history import History, HistoryEntry
+import datetime
+now = datetime.datetime.now().replace(microsecond=0)
 
 ############################# HELPER FUNCTION #############################################
 def show_dict_items(dictionary):
@@ -22,10 +25,15 @@ class Transactions():
     @classmethod
     def get_balance(cls, acct_type):
         balance = getattr(Transactions.user, acct_type)
+
+        action = HistoryEntry.LOOKUP["balance"]
+        history_entry = HistoryEntry(user_id=Transactions.user.id, date=str(now), action=action)
+        History.add_transaction_entry(history_entry)
+
         print(f"Your current {acct_type} account balance is: {balance}")
 
     @classmethod
-    def withdraw(cls, acct, transfer=False):
+    def withdraw(cls, acct, transfer=False, internal=True, ext_acct=None, ext_acct_type=None):
         will_overdraft = False
         acct = acct.lower()
         withdraw_amt = None
@@ -84,9 +92,28 @@ class Transactions():
 
         if Transactions.user.overdraft_count >= 2:
             Transactions.user.active = False
+            deactivation_action = HistoryEntry.LOOKUP["deactivate"]
+            history_entry = HistoryEntry(user_id=Transactions.user.id, date=str(now), action=deactivation_action, amount=withdraw_amt, starting_balance=curr_acct_balance, ending_balance=update_amt)
+            History.add_transaction_entry(history_entry)
 
         setattr(Transactions.user, acct, update_amt)
         Transactions.update_accounts()
+
+        # ACCOUNT FOR -> STANDARD PERSONAL WITHDRAW / TRANSFER INTERNAL / TRANSFER EXTERNAL
+        withdraw_action = ""
+        transfer_to_person = "" ## <<<<< fix this! empty if internal.. otherwise should be external account into
+        if transfer and internal:
+            withdraw_action = HistoryEntry.LOOKUP["trans-with-int"]
+            transfer_to_person = "(SELF)"
+        if transfer and not internal:
+            withdraw_action = HistoryEntry.LOOKUP["trans-with-ext"]
+            transfer_to_person = f"{ext_acct.id}: {ext_acct.first_name} {ext_acct.last_name} -> {ext_acct_type} account."
+        if not transfer:
+            withdraw_action = HistoryEntry.LOOKUP["withdraw"]
+
+        # TRANSFER TO  **FIX TO** (NEEDS TO BE PASSED IN..)
+        history_entry = HistoryEntry(user_id=Transactions.user.id, date=str(now), action=withdraw_action, account_type=acct.upper(), transfer_to=transfer_to_person, amount=withdraw_amt, starting_balance=curr_acct_balance, ending_balance=update_amt)
+        History.add_transaction_entry(history_entry)
 
         print(f"\nThe {'transfer' if transfer else 'withdraw'} amount of ${withdraw_amt} from your {acct} was successful with a resulting balance of ${update_amt}")
         return withdraw_amt
@@ -124,19 +151,28 @@ class Transactions():
                 deposit_amt = int(deposit_amt)
                 if deposit_amt <= 0:
                     print(invalid("number"))
-        
 
         if internal:
             curr_amt = getattr(Transactions.user, acct)
             update_amt = curr_amt + deposit_amt
             setattr(Transactions.user, acct, update_amt)
+            deposit_action = ""
+            if transfer and internal:
+                deposit_action = HistoryEntry.LOOKUP["trans-dep-int"]
+            if not transfer and internal:
+                deposit_action = HistoryEntry.LOOKUP["deposit"]
+            history_entry = HistoryEntry(user_id=Transactions.user.id, date=str(now), account_type=acct.upper(), action=deposit_action, transfer_from=f"{Transactions.user.id}: {Transactions.user.first_name} {Transactions.user.last_name}", amount=deposit_amt, starting_balance=curr_amt, ending_balance=update_amt)
+            History.add_transaction_entry(history_entry)
             print(f"\n{deposit_amt} has been added to your {acct} with a resulting balance of {update_amt}")
 
 
         if not internal:
             curr_amt = getattr(ext_acct, ext_acct_type)
             update_amt = curr_amt + deposit_amt
-            setattr(ext_acct, ext_acct_type, update_amt)
+            setattr(ext_acct, ext_acct_type, update_amt)    
+
+            history_entry = HistoryEntry(user_id=ext_acct.id, date=str(now), account_type=ext_acct_type.upper(), action=HistoryEntry.LOOKUP["trans-dep-ext"], transfer_from=f"{Transactions.user.id}: {Transactions.user.first_name} {Transactions.user.last_name}", amount=deposit_amt, starting_balance=curr_amt, ending_balance=update_amt)
+            History.add_transaction_entry(history_entry)
             print(f"\n{deposit_amt} has been added to acct number {ext_acct.id}'s {ext_acct_type} with a resulting balance of {update_amt}")
 
         Transactions.update_accounts()
@@ -149,6 +185,7 @@ class Transactions():
         opp_acct = "savings" if acct == "checking" else "checking"
         ext_acct = None
         account_type_to_transfer_to = None
+
 
         # TRANSFER OPTIONS -> 
         # IF USER HAS BOTH ACCT TYPES -> CAN TRANSFER FROM ONE TO OTHER
@@ -185,10 +222,7 @@ class Transactions():
                         valid_ext_id = True
                         ext_acct = account_found
 
-                        print(ext_acct, "188 account found!", account_found.checking, isinstance(account_found.checking, int), type(account_found.savings), isinstance(account_found.savings, int))
-
-                        # BOTH -> REQUIRES CHOICE!
-                        
+                        # BOTH -> REQUIRES CHOICE!                        
                         if type(account_found.checking) == int and type(account_found.savings) == int:
                             account_choice_options = { "1": "Checking", "2": "Savings", "Q": "Quit" }
                             account_choice = None
@@ -214,9 +248,14 @@ class Transactions():
                 if ext_acct == "Q":
                     cls.user_session = "Q"
                     return
-        
+
+
         # ASK HOW MUCH TO TRANSFER / COMPLETE THIS STEP
-        amount_to_deposit = Transactions.withdraw(acct, transfer=True)
+        amount_to_deposit = 0
+        if trans_type == "internal":
+            amount_to_deposit = Transactions.withdraw(acct, transfer=True,  ext_acct=ext_acct, ext_acct_type=account_type_to_transfer_to)
+        if trans_type == "external":
+            amount_to_deposit = Transactions.withdraw(acct, transfer=True, internal=False, ext_acct=ext_acct, ext_acct_type=account_type_to_transfer_to)
 
         # RETURN IF 'Q' OR NOT ACTUAL AMOUNT
         if type(amount_to_deposit) is not int or amount_to_deposit == "Q":
@@ -231,10 +270,9 @@ class Transactions():
 
         # DEPOSIT INTO EXTERNAL
         if trans_type == "external":
-            print("231", ext_acct, account_type_to_transfer_to)
             Transactions.deposit(acct, transfer=True, internal=False, deposit_amt=amount_to_deposit, ext_acct=ext_acct, ext_acct_type=account_type_to_transfer_to)
             return
-
+        
         print("Transfer complete!\n")
         return
 

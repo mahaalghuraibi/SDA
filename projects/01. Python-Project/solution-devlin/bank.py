@@ -1,7 +1,9 @@
 import csv
 from transaction import Transactions
 from customer    import Customer
-from history     import History
+from history     import History, HistoryEntry
+import datetime
+now = datetime.datetime.now().replace(microsecond=0)
 
 ############################# HELPER FUNCTION #############################################
 def show_dict_items(dictionary):
@@ -30,14 +32,6 @@ class Bank():
                 return acct
         return False
 
-
-
-    # @classmethod
-    # def deposit_transfer_amt_into_external_acct(cls, acct_id, acct_type, amount):
-    #     for acct in cls.customers:
-    #         if acct.id == acct_id
-
-
     @classmethod
     def load_accounts(cls):
         try: 
@@ -52,7 +46,7 @@ class Bank():
             print(e)
     
     @classmethod
-    def update_data(self):
+    def update_data(cls):
         with open(Bank.filename, 'w', newline='') as csvfile:
             try:
                 writer = csv.DictWriter(csvfile, fieldnames=Bank.fieldnames)
@@ -63,7 +57,7 @@ class Bank():
                 print(e)
 
     @classmethod
-    def login(self):
+    def login(cls):
         validated = False
         user_id   = None
         user_pass = None
@@ -85,7 +79,9 @@ class Bank():
                     validated = True
                     print(f"\nWelcome back, {acct.first_name} {acct.last_name}.")
                     Bank.user = acct
-                    History.add_transaction_entry(2, acct)
+                    action = HistoryEntry.LOOKUP["login"]
+                    history_entry = HistoryEntry(user_id=Bank.user.id, date=str(now), action=action)
+                    History.add_transaction_entry(history_entry)
             
             # ACCT NOT FOUND / INCORRECT INFO
             if not validated:
@@ -94,7 +90,7 @@ class Bank():
         return
 
     @classmethod
-    def signup(self):
+    def signup(cls):
         new_user = Customer.get_new_user()
 
         # GET/SET USER INFO
@@ -122,6 +118,17 @@ class Bank():
         Bank.customers.append(user_obj)
         Bank.user = user_obj
         Bank.update_data()
+
+        # SIGNUP HISTORY
+        action = HistoryEntry.LOOKUP["signup"]
+        history_entry = HistoryEntry(user_id=Bank.user.id, date=str(now), action=action)
+        History.add_transaction_entry(history_entry)
+
+        # CREATE ACCOUNT TYPE HISTORY
+        action = HistoryEntry.LOOKUP[f"create-{acct_options_dict[acct_choice]}"]
+        history_entry = HistoryEntry(user_id=Bank.user.id, date=str(now), action=action, amount=0, starting_balance=0, ending_balance=0)
+        History.add_transaction_entry(history_entry)
+
         print(f"Thank you, {user_obj.first_name} {user_obj.last_name}, for joining Gotham Bank!! Welcome!")
         return
         
@@ -147,7 +154,7 @@ class Bank():
             if action == "4":
                 Transactions.get_balance(acct_type)
             if action == "5":
-                History.get_user_history(Bank.user)
+                History.get_user_history(Bank.user, acct_type)
             if action == "Q":
                 Bank.user_session = "Q"
                 return
@@ -172,6 +179,10 @@ class Bank():
     def create_new_account_type(self, acct_type):
         setattr(Bank.user, acct_type.lower(), 0)
         Bank.update_data()
+        # CREATE NEW ACCOUNT TYPE HISTORY
+        action = HistoryEntry.LOOKUP[f"create-{acct_type.lower()}"]
+        history_entry = HistoryEntry(user_id=Bank.user.id, date=str(now), action=action, amount=0, starting_balance=0, ending_balance=0)
+        History.add_transaction_entry(history_entry)
         print(f"Congratulations on opening your new {acct_type}.")
         return 
     
@@ -211,11 +222,16 @@ class Bank():
                     print(invalid("number"))
             updated_amount = abs(curr_acct_balance + deposit_amt)
             setattr(Bank.user, accts_to_reactivate[0][0], updated_amount)
+            history_entry = HistoryEntry(user_id=Bank.user.id, date=str(now), account_type=accts_to_reactivate[0][0].upper(), action=HistoryEntry.LOOKUP["deposit"], amount=deposit_amt, starting_balance=curr_acct_balance, ending_balance=updated_amount )
+            History.add_transaction_entry(history_entry)
             accts_to_reactivate.pop(0)
 
         Bank.user.overdraft_count = 0
         Bank.user.active = True
         Bank.update_data()
+
+        history_entry = HistoryEntry(user_id=Bank.user.id, date=str(now), action=HistoryEntry.LOOKUP["reactivate"])
+        History.add_transaction_entry(history_entry)
         print("Thank you for reactivating your account!")
 
 

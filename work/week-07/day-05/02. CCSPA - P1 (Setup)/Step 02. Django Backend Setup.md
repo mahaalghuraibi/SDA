@@ -10,8 +10,8 @@ Then, after the lessons, you will use lab time to repeat what you saw in the les
 Time to setup our Django Rest Framework Backend!
 
 1. Create a folder to hold your python virtual environment / files: 
-   - `applications/cat-collector-spa/catcollector_backend`
-   - cd into `applications/cat-collector-spa/catcollector_backend`
+   - `applications/cat-collector-spa/backend`
+   - cd into `applications/cat-collector-spa/backend`
 
 2. Create a python virtual environment and we will install Django with: `pipenv shell`
 
@@ -21,7 +21,7 @@ Time to setup our Django Rest Framework Backend!
 1. Install dependencies: `pipenv install django psycopg2-binary djangorestframework`
 - this will create a `Pipfile.lock`
 
-1. Start a new Django project within your virtual environment:  `django-admin startproject catcollector_backend .`
+1. Start a new Django project within your virtual environment:  `django-admin startproject backend .`
 
 2. **When you are done!... `exit`**
 
@@ -32,29 +32,10 @@ Time to setup our Django Rest Framework Backend!
 
 ### Create the database
 
-Databases are not automatically created by Django, so let's create one. This will be a different approach for our Django Web Framework approach.
+Databases are not automatically created by Django, so let's create one!
 
-Create (touch) a file called `./catcollector_backend/create-database.sql` and fill it with the following:
-
-```sql
-CREATE DATABASE catcollectorspa;
-
-CREATE USER cat_admin WITH PASSWORD 'password';
-
-GRANT ALL PRIVILEGES ON DATABASE catcollectorspa TO cat_admin;
-
-```
-
-We can execute that script by running `psql -f create-database.sql` from the
-command line. 
-
-**HINT: pay attention to where you are in your terminal to run the file from your current terminal location!**
-
-Should see some output in the terminal:
-
-- `CREATE DATABASE`
-- `CREATE ROLE`
-- `GRANT`
+ - PSQL:
+`CREATE DATABASE catcollectorspa;`
 
 ### Creating and registering a "Main App"
 
@@ -106,10 +87,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'catcollectorspa',
-        # 'HOST': 'localhost',  <-- (optional) some computers might need this line
-        # 'USER': 'cat_admin', <-- (optional) postgres user name, if you have to sign into an account to open psql, you will want to add that user name here.
-        # 'PASSWORD': 'password', <-- (optional) postgres user password, if you have to sign into an account to open psql, you will want to add that user password here.
-        # 'PORT': 3000 <-- if you desire to use a port other than 8000, you can change that here to any valid port id, some number between 1 and 65535 that isn't in use by some other process on your machine. The reason for this port number range is because of how TCP/IP works, a TCP/IP protocol network(the most widely used protocol used on the web) allocated 16 bits for port numbers. This means that number must be greater than 0 and less than 2^15 -1. 
     }
 }
 ```

@@ -3,6 +3,8 @@ import seed as seed
 from bank import Bank
 from customer import Customer
 from history import History
+import datetime
+now = datetime.datetime.now().replace(microsecond=0)
 
 ### TO-DO
 ## REFACTOR TRANSFERS
@@ -83,6 +85,10 @@ def app():
 
                     if user_choice == "1" or user_choice == "2" and Bank.user_session != "Q": 
                         Bank.access_existing_account(activated_user_options[user_choice])
+                    
+                    if user_choice == "Q":
+                        Bank.user_session = "Q"
+                        return 
 
                     if user_choice not in activated_user_options.keys():
                         print("\n**Please choose a valid option**\n")
