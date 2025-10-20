@@ -1,0 +1,104 @@
+h1 {
+  text-align: center;
+  margin-top: 40px;
+  color: #cb6ea8;
+}
+.detail-note-container {
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff0f6;
+  min-height: 100vh;
+}
+
+.detail-note-img {
+  max-width: 280px;
+  margin-bottom: 20px;
+}
+
+.detail-note-img img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(203, 110, 168, 0.15);
+}
+
+.note-details {
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #f3cfe0;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(255, 105, 180, 0.1);
+  padding: 24px;
+  max-width: 500px;
+}
+
+.note-details h1 {
+  color: #cb6ea8;
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.note-details p {
+  color: #5e4b57;
+  font-size: 1.1rem;
+  margin: 8px 0;
+}
+
+.note-details small {
+  color: #9b7e8a;
+  font-size: 0.9rem;
+}
+
+@media (min-width: 768px) {
+  .detail-note-container {
+    flex-direction: row;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .detail-note-img {
+    max-width: 320px;
+    margin-bottom: 0;
+  }
+
+  .note-details {
+    text-align: left;
+    max-width: 520px;
+  }
+}
+.note-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.btn.warn {
+  background-color: #fff6d8;
+  border: 1px solid #f3c860;
+  color: #8a6d1f;
+}
+
+.btn.danger {
+  background-color: #ffe1e6;
+  border: 1px solid #f59aaa;
+  color: #b3203b;
+}
+
+.btn.warn:hover {
+  background-color: #fff1b3;
+}
+
+.btn.danger:hover {
+  background-color: #ffc9d1;
+}

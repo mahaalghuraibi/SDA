@@ -1,0 +1,72 @@
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff0f6;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(255, 105, 180, 0.1);
+}
+
+.form-container table {
+  width: 100%;
+  border-spacing: 0 20px;
+}
+
+.form-container th {
+  text-align: left;
+  padding-right: 20px;
+  color: #7b5773;
+  font-weight: 600;
+  font-size: 1rem;
+  vertical-align: top;
+}
+
+.form-container td {
+  width: 100%;
+}
+
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #f3cfe0;
+  background: #ffffff;
+  font-size: 1rem;
+  color: #5e4b57;
+  transition: all 0.2s ease;
+}
+
+.form-container input:focus,
+.form-container textarea:focus {
+  border-color: #cb6ea8;
+  outline: none;
+  box-shadow: 0 0 4px rgba(203, 110, 168, 0.3);
+}
+
+.form-container textarea {
+  height: 150px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.form-container .btn.end {
+  align-self: flex-end;
+  margin-top: 16px;
+  padding: 10px 18px;
+  border: 1px solid #a6d3ff;
+  background: #e3f1ff;
+  color: #333;
+  font-weight: 600;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.form-container .btn.end:hover {
+  background: #d5e9ff;
+}
