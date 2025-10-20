@@ -1,0 +1,26 @@
+.cat-index-card {
+    width: 275px;
+    margin: 10px;
+    border: var(--borders);
+    box-shadow: var(--card-box-shadow);
+}
+
+.cat-index-card-content {
+    padding: 10px;
+    width: 100%;
+}
+
+.cat-index-card > a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.cat-index-card h2 {
+    margin: 10px 0;
+    font-size: var(--font-xl);
+}
+
+.cat-index-card p {
+    margin: 5px 0;
+    font-size: var(--font-reg);
+}
