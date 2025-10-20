@@ -1,4 +1,3 @@
-// frontend/src/pages/NoteFormPage/index.jsx
 import "./styles.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
@@ -9,6 +8,7 @@ export default function NoteFormPage({ createNote, editNote, deleteNote }) {
   const initialState = { title: "", content: "" };
   const [currNote, setCurrNote] = useState(null);
   const [formData, setFormData] = useState(initialState);
+  const [submitting, setSubmitting] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ export default function NoteFormPage({ createNote, editNote, deleteNote }) {
       }
     }
     if ((editNote || deleteNote) && id) getAndSetDetail();
-  }, [id]); // eslint-disable-line
+  }, [id, editNote, deleteNote]);
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,32 +33,40 @@ export default function NoteFormPage({ createNote, editNote, deleteNote }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
     try {
-      const saved =
-        editNote
-          ? await noteAPI.update(formData, currNote.id)
-          : await noteAPI.create(formData);
+      const saved = editNote
+        ? await noteAPI.update(formData, currNote.id)  
+        : await noteAPI.create(formData);
 
       setFormData(initialState);
       navigate(`/notes/${saved.id}`);
     } catch (err) {
       console.log(err);
+    } finally {
+      setSubmitting(false);
     }
   }
 
   async function handleDelete(e) {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
     try {
       await noteAPI.deleteNote(currNote.id);
       setFormData(initialState);
       navigate("/notes");
     } catch (err) {
       console.log(err);
+    } finally {
+      setSubmitting(false);
     }
   }
 
   if (deleteNote && !currNote) return <h1>Loading</h1>;
-  if (deleteNote && currNote)
+
+  if (deleteNote && currNote) {
     return (
       <>
         <div className="page-header">
@@ -68,14 +76,17 @@ export default function NoteFormPage({ createNote, editNote, deleteNote }) {
         <h2>Are you sure you want to delete “{currNote.title}”?</h2>
         <form onSubmit={handleDelete}>
           <Link to={`/notes/${currNote.id}`} className="btn secondary">Cancel</Link>
-          <button type="submit" className="btn danger">Yes — Delete!</button>
+          <button type="submit" className="btn danger" disabled={submitting}>
+            {submitting ? "Deleting..." : "Yes — Delete!"}
+          </button>
         </form>
       </>
     );
+  }
 
   if (editNote && !currNote) return <h1>Loading</h1>;
 
-  if (createNote || editNote)
+  if (createNote || editNote) {
     return (
       <>
         <div className="page-header">
@@ -118,10 +129,21 @@ export default function NoteFormPage({ createNote, editNote, deleteNote }) {
               </tr>
             </tbody>
           </table>
-          <button type="submit" className="btn end submit">Submit!</button>
+
+          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", marginRight: 40 }}>
+            {editNote && currNote ? (
+              <Link to={`/notes/${currNote.id}`} className="btn secondary">Cancel</Link>
+            ) : (
+              <Link to="/notes" className="btn secondary">Cancel</Link>
+            )}
+            <button type="submit" className="btn end submit" disabled={submitting}>
+              {submitting ? "Saving..." : "Submit!"}
+            </button>
+          </div>
         </form>
       </>
     );
+  }
 
   return null;
 }

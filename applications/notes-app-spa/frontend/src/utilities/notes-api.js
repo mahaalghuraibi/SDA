@@ -20,3 +20,6 @@ export async function update(formData, noteId) {
 export async function deleteNote(noteId) {
   return sendRequest(`${url}${noteId}/`, "DELETE");
 }
+export function addPhoto(noteId, formData) {
+  return sendRequest(`/notes/${noteId}/photo/`, "POST", formData);
+}
