@@ -6,22 +6,36 @@ import * as noteAPI from "../../utilities/notes-api";
 import * as moodchecksAPI from "../../utilities/moodchecks-api";
 import MoodCheckForm from "../../components/Forms/MoodCheckForm";
 import AddPhotoForm from "../../components/Forms/AddPhotoForm";
+import * as reactionsAPI from "../../utilities/reactions-api";
+import DisplayNoteReactions from "../../components/DisplayNoteReactions";
+import * as notesAPI from "../../utilities/notes-api";
 
 const PERIODS = { M: "Morning", A: "Afternoon", N: "Night" };
 
 export default function NoteDetailPage() {
   const [noteDetail, setNoteDetail] = useState(null);
   const [moodChecks, setMoodChecks] = useState([]);
+  const [allReactions, setAllReactions] = useState([]);
+  const [reactionsNoteHas, setReactionsNoteHas] = useState([]);
+  const [reactionsNoteDoesntHave, setReactionsNoteDoesntHave] = useState([]);
+
   const { id } = useParams();
 
   useEffect(() => {
     async function getAndSetDetail() {
       try {
-        const note = await noteAPI.show(id);
-        setNoteDetail(note);
+        const res = await noteAPI.show(id);
+        const normalizedNote = res?.note ?? res;
+        setNoteDetail(normalizedNote);
+
+        setReactionsNoteHas(res?.reactionsNoteHas ?? []);
+        setReactionsNoteDoesntHave(res?.reactionsNoteDoesntHave ?? []);
 
         const checks = await moodchecksAPI.noteMoodChecks(id);
         setMoodChecks(checks);
+
+        const reactions = await reactionsAPI.index();
+        setAllReactions(reactions);
       } catch (err) {
         console.log(err);
       }
@@ -31,11 +45,33 @@ export default function NoteDetailPage() {
 
   async function addPhoto(noteId, formData) {
     try {
-      const updatedNote = await noteAPI.addPhoto(noteId, formData);
-      setNoteDetail(updatedNote);
+      const updated = await noteAPI.addPhoto(noteId, formData);
+      setNoteDetail(updated?.note ?? updated);
     } catch (err) {
       console.log(err);
       setNoteDetail({ ...noteDetail });
+    }
+  }
+
+  async function handleAddReaction(evt, reactionId) {
+    try {
+      evt.preventDefault();
+      const data = await notesAPI.addReactionToNote(noteDetail.id, reactionId);
+      setReactionsNoteHas(data.reactionsNoteHas ?? []);
+      setReactionsNoteDoesntHave(data.reactionsNoteDoesntHave ?? []);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleRemoveReaction(evt, reactionId) {
+    try {
+      evt.preventDefault();
+      const data = await notesAPI.removeReactionFromNote(noteDetail.id, reactionId);
+      setReactionsNoteHas(data.reactionsNoteHas ?? []);
+      setReactionsNoteDoesntHave(data.reactionsNoteDoesntHave ?? []);
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -122,6 +158,82 @@ export default function NoteDetailPage() {
               </p>
             </div>
           )}
+        </section>
+
+        <section className="reactions">
+          <div className="subsection-title" style={{ marginTop: 24 }}>
+            <h2>Reactions</h2>
+            <span style={{ marginLeft: 8 }}>💜 😄 👍 😢 🔥 🙌</span>
+          </div>
+
+          <h3>Available Reactions</h3>
+          <div className="subsection-content">
+            {allReactions.map((r) => (
+              <div
+                key={r.id}
+                className="reaction-container"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  marginBottom: 10,
+                }}
+              >
+                <div
+                  className="reaction-info"
+                  style={{ display: "flex", alignItems: "center", gap: 10 }}
+                >
+                  <span style={{ fontSize: 28 }}>{r.emoji}</span>
+                  <Link
+                    to={`/reactions/${r.id}`}
+                    className="btn secondary"
+                    style={{ padding: "2px 8px" }}
+                  >
+                    View
+                  </Link>
+                </div>
+              </div>
+            ))}
+            {allReactions.length === 0 && <p>No reactions yet.</p>}
+          </div>
+        </section>
+
+        <section className="reactions">
+          <div className="subsection-title" style={{ marginTop: 24 }}>
+            <h2>Reactions on this note</h2>
+          </div>
+
+          <h3>Current Reactions</h3>
+          <div className="subsection-content">
+            {reactionsNoteHas.length > 0 ? (
+              reactionsNoteHas.map((r) => (
+                <DisplayNoteReactions
+                  key={r.id}
+                  reaction={r}
+                  submitFunction={handleRemoveReaction}
+                  formAction="Remove"
+                />
+              ))
+            ) : (
+              <p>No reactions yet on this note.</p>
+            )}
+          </div>
+
+          <h3 style={{ marginTop: 16 }}>Available to Add</h3>
+          <div className="subsection-content">
+            {reactionsNoteDoesntHave.length > 0 ? (
+              reactionsNoteDoesntHave.map((r) => (
+                <DisplayNoteReactions
+                  key={r.id}
+                  reaction={r}
+                  submitFunction={handleAddReaction}
+                  formAction="Add"
+                />
+              ))
+            ) : (
+              <p>All reactions already added 🎉</p>
+            )}
+          </div>
         </section>
       </div>
     </section>

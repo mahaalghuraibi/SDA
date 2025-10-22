@@ -20,6 +20,15 @@ export async function update(formData, noteId) {
 export async function deleteNote(noteId) {
   return sendRequest(`${url}${noteId}/`, "DELETE");
 }
+
 export function addPhoto(noteId, formData) {
-  return sendRequest(`/notes/${noteId}/photo/`, "POST", formData);
+  return sendRequest(`${url}${noteId}/photo/`, "POST", formData);
+}
+
+export function addReactionToNote(noteId, reactionId) {
+  return sendRequest(`${url}${noteId}/add-reaction/${reactionId}/`, "POST");
+}
+
+export function removeReactionFromNote(noteId, reactionId) {
+  return sendRequest(`${url}${noteId}/remove-reaction/${reactionId}/`, "POST");
 }

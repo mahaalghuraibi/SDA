@@ -1,0 +1,15 @@
+.reaction-detail-card {
+  border: 3px solid #d17cb0;
+  border-radius: 1rem;
+  padding: 1rem;
+  text-align: center;
+  margin-top: 2rem;
+  background-color: #ffe6f2;
+}
+
+.reaction-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}

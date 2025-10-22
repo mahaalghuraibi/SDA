@@ -1,3 +1,4 @@
+
 export default async function sendRequest(url, method = 'GET', payload) {
 
 	const options = { method };

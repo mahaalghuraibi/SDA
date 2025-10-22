@@ -1,0 +1,58 @@
+.reaction-index-card-container {
+  padding: 0 40px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.reaction-index-card {
+  width: 224px;
+  height: 224px;
+  margin: 10px;
+  border: 2px solid var(--border, #e6b6d0);
+  box-shadow: var(--card-box-shadow);
+  position: relative;
+  border-radius: 12px;
+  background: #ffe6f2;
+}
+
+.reaction-index-card > a {
+  position: absolute;
+  inset: 0;
+  display: inline-block;
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.reaction-index-card-content {
+  padding: 15px;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.reaction-index-card-content .emoji {
+  font-size: 56px;
+  margin: 0 0 6px;
+}
+
+.reaction-index-card-content p {
+  margin: 0;
+  font-size: var(--font-reg);
+}
+
+.page-header .emoji-strip {
+  margin-top: 8px;
+  font-size: 22px;
+  opacity: 0.8;
+}
+
+.empty {
+  width: 100%;
+  text-align: center;
+  opacity: 0.8;
+  margin: 18px 0;
+}

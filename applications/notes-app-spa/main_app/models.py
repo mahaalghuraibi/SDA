@@ -3,7 +3,7 @@ from django.db import models
 class Note(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField(max_length=250)
-    # created_at = models.DateTimeField(auto_now_add=True)
+    reactions = models.ManyToManyField('Reaction', blank=True, related_name='notes')  
 
     def __str__(self):
         return self.title
@@ -14,7 +14,6 @@ MEALS = (
     ('A', 'Afternoon'),
     ('N', 'Night'),
 )
-
 
 class MoodCheck(models.Model):
     date = models.DateField('Mood check date')
@@ -38,3 +37,9 @@ class Photo(models.Model):
     def __str__(self):
         return f"Photo for note_id: {self.note.id} @{self.url}"
 
+
+class Reaction(models.Model):
+    emoji = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.emoji
