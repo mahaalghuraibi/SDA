@@ -6,7 +6,6 @@ import * as noteAPI from "../../utilities/notes-api";
 import * as moodchecksAPI from "../../utilities/moodchecks-api";
 import MoodCheckForm from "../../components/Forms/MoodCheckForm";
 import AddPhotoForm from "../../components/Forms/AddPhotoForm";
-import * as reactionsAPI from "../../utilities/reactions-api";
 import DisplayNoteReactions from "../../components/DisplayNoteReactions";
 import * as notesAPI from "../../utilities/notes-api";
 
@@ -15,7 +14,7 @@ const PERIODS = { M: "Morning", A: "Afternoon", N: "Night" };
 export default function NoteDetailPage() {
   const [noteDetail, setNoteDetail] = useState(null);
   const [moodChecks, setMoodChecks] = useState([]);
-  const [allReactions, setAllReactions] = useState([]);
+
   const [reactionsNoteHas, setReactionsNoteHas] = useState([]);
   const [reactionsNoteDoesntHave, setReactionsNoteDoesntHave] = useState([]);
 
@@ -33,9 +32,6 @@ export default function NoteDetailPage() {
 
         const checks = await moodchecksAPI.noteMoodChecks(id);
         setMoodChecks(checks);
-
-        const reactions = await reactionsAPI.index();
-        setAllReactions(reactions);
       } catch (err) {
         console.log(err);
       }
@@ -163,44 +159,7 @@ export default function NoteDetailPage() {
         <section className="reactions">
           <div className="subsection-title" style={{ marginTop: 24 }}>
             <h2>Reactions</h2>
-            <span style={{ marginLeft: 8 }}>💜 😄 👍 😢 🔥 🙌</span>
-          </div>
-
-          <h3>Available Reactions</h3>
-          <div className="subsection-content">
-            {allReactions.map((r) => (
-              <div
-                key={r.id}
-                className="reaction-container"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 12,
-                  marginBottom: 10,
-                }}
-              >
-                <div
-                  className="reaction-info"
-                  style={{ display: "flex", alignItems: "center", gap: 10 }}
-                >
-                  <span style={{ fontSize: 28 }}>{r.emoji}</span>
-                  <Link
-                    to={`/reactions/${r.id}`}
-                    className="btn secondary"
-                    style={{ padding: "2px 8px" }}
-                  >
-                    View
-                  </Link>
-                </div>
-              </div>
-            ))}
-            {allReactions.length === 0 && <p>No reactions yet.</p>}
-          </div>
-        </section>
-
-        <section className="reactions">
-          <div className="subsection-title" style={{ marginTop: 24 }}>
-            <h2>Reactions on this note</h2>
+            <span style={{ marginLeft: 8 }}></span>
           </div>
 
           <h3>Current Reactions</h3>
