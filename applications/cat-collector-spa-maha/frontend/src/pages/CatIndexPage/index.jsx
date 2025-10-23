@@ -8,15 +8,10 @@ import CatIndexCard from "../../components/CatIndexCard";
 import * as catAPI from "../../utilities/cat-api";
 
 export default function CatIndexPage() {
-  const [allCats, setAllCats] = useState([
-    // { name: 'Lolo', breed: 'tabby', description: 'Kinda rude.', age: 3 },
-    // { name: 'Sachi', breed: 'tortoiseshell', description: 'Looks like a turtle.', age: 0 },
-    // { name: 'Fancy', breed: 'bombay', description: 'Happy fluff ball.', age: 4 },
-    // { name: 'Bonk', breed: 'selkirk rex', description: 'Meows loudly.', age: 6 },
-  ]);
+  const [allCats, setAllCats] = useState([]);
 
-  const displayAllCats = allCats.map((c, idx) => (
-    <CatIndexCard key={idx} cat={c} />
+  const displayAllCats = allCats.map((c) => (
+    <CatIndexCard key={c.id} cat={c} />
   ));
 
   useEffect(function () {
@@ -25,7 +20,7 @@ export default function CatIndexPage() {
       console.log(allCatData, "line-25 CatIndexPage");
       setAllCats(allCatData);
     }
-    if (allCats.length === 0) getAllCats();
+    getAllCats();
   }, []);
 
   return (

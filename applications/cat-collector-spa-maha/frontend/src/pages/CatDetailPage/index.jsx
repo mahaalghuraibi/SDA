@@ -8,11 +8,10 @@ import catOniGirl from "../../assets/images/cat-onigiri.svg";
 import kittyKabob from "../../assets/images/kitty-kabob.svg";
 import FeedingForm from "../../components/Forms/FeedingForm";
 import AddPhotoForm from "../../components/Forms/AddPhotoForm";
-import * as feedingsAPI from "../../utilities/feedings-api";
 import string from "../../assets/images/string.svg";
 import mouse from "../../assets/images/mouse.svg";
 import fish from "../../assets/images/fish.svg";
-import * as toysAPI from "../../utilities/toy-api";
+import DisplayCatToys from "../../components/DisplayCatToys/DisplayCatToys";
 
 const MEALS = {
   B: "Breakfast",
@@ -23,17 +22,17 @@ const MEALS = {
 export default function CatDetailPage() {
   const [catDetail, setCatDetail] = useState(null);
   const [catFeedings, setCatFeedings] = useState([]);
-  const [allToys, setAllToys] = useState([]);
+  const [toysCatHas, setToysCatHas] = useState([]);
+  const [toysCatDoesntHave, setToysCatDoesntHave] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
     async function getAndSetDetail() {
-      const cat = await catAPI.detail(id);
-      const feedings = await feedingsAPI.catFeedings(id);
-      const toys = await toysAPI.index();
-      setCatDetail(cat);
-      setCatFeedings(feedings);
-      setAllToys(toys);
+      const catDetailData = await catAPI.show(id);
+      setCatDetail(catDetailData.cat);
+      setCatFeedings(catDetailData.feedings);
+      setToysCatHas(catDetailData.toysCatHas);
+      setToysCatDoesntHave(catDetailData.toysCatDoesntHave);
     }
     if (id) getAndSetDetail();
   }, [id]);
@@ -43,15 +42,53 @@ export default function CatDetailPage() {
       const updatedCat = await catAPI.addPhoto(catId, formData);
       setCatDetail(updatedCat);
     } catch (err) {
-      console.log(err);
       setCatDetail({ ...catDetail });
     }
   }
 
-  async function handleAddToy(toyId) {}
-  async function handleRemoveToy(toyId) {}
+  async function handleAddToy(evt, toyId) {
+    try {
+      evt.preventDefault();
+      const toyData = await catAPI.addToyToCat(catDetail.id, toyId);
+      setToysCatHas(toyData.toysCatHas);
+      setToysCatDoesntHave(toyData.toysCatDoesntHave);
+    } catch (err) {
+      setToysCatHas([...toysCatHas]);
+      setToysCatDoesntHave([...toysCatDoesntHave]);
+    }
+  }
+
+  async function handleRemoveToy(evt, toyId) {
+    try {
+      evt.preventDefault();
+      const toyData = await catAPI.removeToyFromCat(catDetail.id, toyId);
+      setToysCatHas(toyData.toysCatHas);
+      setToysCatDoesntHave(toyData.toysCatDoesntHave);
+    } catch (err) {
+      setToysCatHas([...toysCatHas]);
+      setToysCatDoesntHave([...toysCatDoesntHave]);
+    }
+  }
 
   if (!catDetail) return <h3>Your cat details will display soon</h3>;
+
+  const catToys = toysCatHas.map((toy) => (
+    <DisplayCatToys
+      key={toy.id}
+      toy={toy}
+      submitFunction={handleRemoveToy}
+      formAction="Take Toy"
+    />
+  ));
+
+  const availableToys = toysCatDoesntHave.map((toy) => (
+    <DisplayCatToys
+      key={toy.id}
+      toy={toy}
+      submitFunction={handleAddToy}
+      formAction="Give Toy"
+    />
+  ));
 
   return (
     <>
@@ -145,21 +182,23 @@ export default function CatDetailPage() {
             <img src={mouse} alt="A mouse" />
             <img src={fish} alt="A fishy toy" />
           </div>
+
+          <h3>{catDetail.name}'s Toys</h3>
+          <div className="subsection-content">
+            {toysCatHas.length > 0 ? (
+              catToys
+            ) : (
+              <p className="no-toys">{catDetail.name} doesn't have any toys!</p>
+            )}
+          </div>
+
           <h3>Available Toys</h3>
           <div className="subsection-content">
-            {allToys.map((toy) => (
-              <div key={toy.id} className="toy-container">
-                <div className="toy-info">
-                  <div
-                    className="color-block"
-                    style={{ backgroundColor: toy.color }}
-                  ></div>
-                  <Link to={`/toys/${toy.id}`}>
-                    <p>A {toy.color} {toy.name}</p>
-                  </Link>
-                </div>
-              </div>
-            ))}
+            {availableToys.length > 0 ? (
+              availableToys
+            ) : (
+              <p className="all-toys">{catDetail.name} already has all the available toys 🥳</p>
+            )}
           </div>
         </section>
       </div>

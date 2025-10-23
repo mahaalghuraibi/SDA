@@ -1,17 +1,24 @@
-export default async function sendRequest(url, method = "GET", payload) {
+export default async function sendRequest(url, method = 'GET', payload) {
+  const token = localStorage.getItem('token');
+
   const options = { method };
 
   if (payload) {
-    options.headers = { "Content-Type": "application/json" };
+    options.headers = { 'Content-Type': 'application/json' };
     options.body = JSON.stringify(payload);
+  }
+
+  if (token) {
+    options.headers = options.headers || {};
+    options.headers.Authorization = `Bearer ${token}`;
   }
 
   try {
     const res = await fetch(`http://127.0.0.1:8000${url}`, options);
     if (res.ok) return res.json();
-    throw new Error(`Request failed with status ${res.status}`);
+    throw new Error('Bad Request');
   } catch (err) {
-    console.error("Error in send-request:", err);
-    return err;
+    console.log(err, "error in send-request");
+    throw err;
   }
 }

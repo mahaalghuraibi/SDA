@@ -13,4 +13,9 @@ urlpatterns = [
 
     path('notes/<int:note_id>/add-reaction/<int:reaction_id>/', views.AddReactionToNote.as_view(), name='add-reaction-to-note'),
     path('notes/<int:note_id>/remove-reaction/<int:reaction_id>/', views.RemoveReactionFromNote.as_view(), name='remove-reaction-from-note'),
+
+    path('users/signup/', views.CreateUserView.as_view(), name='signup'),
+    path('users/login/', views.LoginView.as_view(), name='login'),
+    path('users/verify/', views.VerifyUserView.as_view(), name='verify'),
+
 ]

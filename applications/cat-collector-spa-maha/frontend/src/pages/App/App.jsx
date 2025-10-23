@@ -11,6 +11,7 @@ import CatFormPage from "../CatFormPage";
 import ToyIndexPage from "../ToyIndexPage";
 import ToyDetailPage from "../ToyDetailPage";
 import ToyFormPage from "../ToyFormPage";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 
 export default function App() {
   const location = useLocation();
@@ -30,11 +31,12 @@ export default function App() {
         </div>
         <nav>
           <ul>
-            <li><Link to="/about">About</Link></li>
+            <Navbar />
+            {/* <li><Link to="/about">About</Link></li>
             <li><Link to="/cats">All Cats</Link></li>
             <li><Link to="/cats/new">Create New Cat</Link></li>
             <li><Link to="/toys">All Toys</Link></li>
-            <li><Link to="/toys/new">Add a Toy</Link></li>
+            <li><Link to="/toys/new">Add a Toy</Link></li> */}
           </ul>
         </nav>
       </header>

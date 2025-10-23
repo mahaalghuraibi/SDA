@@ -19,7 +19,7 @@ class Cat(models.Model):
     breed = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     age = models.IntegerField()
-    toys = models.ManyToManyField(Toy)
+    toys = models.ManyToManyField(Toy, related_name='cat')
 
     def __str__(self):
         return self.name
@@ -50,4 +50,3 @@ class Photo(models.Model):
 
     def __str__(self):
         return f"Photo for cat_id: {self.cat.id} @{self.url}"
- 

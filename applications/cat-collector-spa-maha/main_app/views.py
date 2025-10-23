@@ -51,9 +51,16 @@ class CatDetail(APIView):
 
     def get(self, request, cat_id):
         try:
-            queryset = get_object_or_404(Cat, id=cat_id)
-            cat = self.serializer_class(queryset)
-            return Response(cat.data, status=status.HTTP_200_OK)
+            cat = get_object_or_404(Cat, id=cat_id)
+            feedings = Feeding.objects.filter(cat=cat_id)
+            toysCatHas = Toy.objects.filter(cat=cat_id)
+            toysCatDoesntHave = Toy.objects.exclude(id__in=cat.toys.all().values_list('id'))
+            return Response({
+                "cat": CatSerializer(cat).data,
+                "feedings": FeedingSerializer(feedings, many=True).data,
+                "toysCatHas": ToySerializer(toysCatHas, many=True).data,
+                "toysCatDoesntHave": ToySerializer(toysCatDoesntHave, many=True).data
+            }, status=status.HTTP_200_OK)
         except Exception as err:
             return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -73,6 +80,38 @@ class CatDetail(APIView):
             cat = get_object_or_404(Cat, id=cat_id)
             cat.delete()
             return Response({'success': True}, status=status.HTTP_200_OK)
+        except Exception as err:
+            return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class AddToyToCat(APIView):
+    def post(self, request, cat_id, toy_id):
+        try:
+            cat = get_object_or_404(Cat, id=cat_id)
+            toy = get_object_or_404(Toy, id=toy_id)
+            cat.toys.add(toy)
+            toys_cat_does_have = Toy.objects.filter(cat=cat_id)
+            toys_cat_doesnt_have = Toy.objects.exclude(id__in=cat.toys.all().values_list('id'))
+            return Response({
+                "toysCatHas": ToySerializer(toys_cat_does_have, many=True).data,
+                "toysCatDoesntHave": ToySerializer(toys_cat_doesnt_have, many=True).data
+            }, status=status.HTTP_200_OK)
+        except Exception as err:
+            return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class RemoveToyFromCat(APIView):
+    def post(self, request, cat_id, toy_id):
+        try:
+            cat = get_object_or_404(Cat, id=cat_id)
+            toy = get_object_or_404(Toy, id=toy_id)
+            cat.toys.remove(toy)
+            toys_cat_does_have = Toy.objects.filter(cat=cat_id)
+            toys_cat_doesnt_have = Toy.objects.exclude(id__in=cat.toys.all().values_list('id'))
+            return Response({
+                "toysCatHas": ToySerializer(toys_cat_does_have, many=True).data,
+                "toysCatDoesntHave": ToySerializer(toys_cat_doesnt_have, many=True).data
+            }, status=status.HTTP_200_OK)
         except Exception as err:
             return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -102,59 +141,52 @@ class PhotoDetail(APIView):
 
     def post(self, request, cat_id):
         try:
-            # Set Cat ID for Photo
             data = request.data.copy()
             data["cat"] = int(cat_id)
-
-            #  Find Existing Photo and Delete if exists
             existing_photo = Photo.objects.filter(cat=cat_id)
             if existing_photo:
                 existing_photo.delete()
-
-            # Create Serializer Instance and Validate
             serializer = self.serializer_class(data=data)
             if serializer.is_valid():
                 cat = get_object_or_404(Cat, id=cat_id)
                 serializer.save()
                 return Response(CatSerializer(cat).data, status=status.HTTP_200_OK)
-            print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as err:
-            print(str(err))
             return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-
 class ToyIndex(generics.ListCreateAPIView):
-  serializer_class = ToySerializer
-  queryset = Toy.objects.all()
+    serializer_class = ToySerializer
+    queryset = Toy.objects.all()
+
 
 class ToyDetail(APIView):
-  serializer_class = ToySerializer
-  lookup_field = 'id'
-  
-  def get(self, request, toy_id):
-    try:
-      toy = get_object_or_404(Toy, id=toy_id)
-      return Response(self.serializer_class(toy).data, status=status.HTTP_200_OK)
-    except Exception as err:
-        return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    serializer_class = ToySerializer
+    lookup_field = 'id'
 
-  def put(self, request, toy_id):
-    try:
-      toy = get_object_or_404(Toy, id=toy_id)
-      serializer = self.serializer_class(toy, data=request.data)
-      if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as err:
-        return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def get(self, request, toy_id):
+        try:
+            toy = get_object_or_404(Toy, id=toy_id)
+            return Response(self.serializer_class(toy).data, status=status.HTTP_200_OK)
+        except Exception as err:
+            return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-  def delete(self, request, toy_id):
-    try:
-      toy = Toy.objects.get(id=toy_id)
-      toy.delete()
-      return Response({'success': True}, status=status.HTTP_200_OK)
-    except Exception as err:
-      return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def put(self, request, toy_id):
+        try:
+            toy = get_object_or_404(Toy, id=toy_id)
+            serializer = self.serializer_class(toy, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as err:
+            return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def delete(self, request, toy_id):
+        try:
+            toy = Toy.objects.get(id=toy_id)
+            toy.delete()
+            return Response({'success': True}, status=status.HTTP_200_OK)
+        except Exception as err:
+            return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
