@@ -51,17 +51,6 @@ import CatDetailPage from "../CatDetailPage";
 <Route path="/cats/:id" element={<CatDetailPage />} />
 ```
 
-### Move the allCats State
-We will need to do some refactoring to get everything organized and connected properly. Let's do the following:
-
-To Do:
- - wrap each `Cat` with a `Link` so we can `navigate` to the proper cat
- - access the route parameter to get the `id` of the `Cat` we want to view
- - make request to get the info for the Cat
- - display the `Cat`
- - add the CSS for the CatDetail
-
-
 ## Cat Index Page
 - Wrap each `Cat` with a `Link` so we can `navigate` to the proper cat
 - Link to `/cats/${catId}`
@@ -353,16 +342,8 @@ export default function CatDetailPage() {
 }
 
 @media only screen and (min-width: 768px) {
-    .detail-cat-container {
-        padding: 35px 30px;
-        flex-direction: row;
-        align-items: center;
-        justify-content: start;
-    }
-
     .detail-cat-img {
-        width: 25%;
-        max-width: 250px;
+        max-width: 450px;
         margin-right: 25px;
     }
 

@@ -33,7 +33,7 @@ import CatFormPage from '../CatFormPage';
 <ul>
   <li><Link to="/about">About</Link></li>
   <li><Link to="/cats">All Cats</Link></li>
-  <li><Link to="/cats/new">All Cats</Link></li>
+  <li><Link to="/cats/new">Create New Cat</Link></li>
 </ul>
 
 <Routes>

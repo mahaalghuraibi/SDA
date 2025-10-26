@@ -46,7 +46,7 @@ import { Link } from "react-router";
 // <div className="cat-details">
 // ...
 // </div>
-<div class="cat-actions">
+<div className="cat-actions">
   <Link to={`/cats/edit/${catDetail.id}`} class="btn warn">Edit</Link>
   <Link to={`/cats/confirm_delete/${catDetail.id}`} class="btn danger">Delete</Link>
 </div>

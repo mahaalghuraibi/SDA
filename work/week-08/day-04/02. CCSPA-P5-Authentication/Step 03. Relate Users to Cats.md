@@ -273,7 +273,15 @@ Our last step is to call our getUser() function in our App.jsx...
 ```jsx
 import { getUser } from '../../utilities/users-api';
 
-const [user, setUser] = useState(getUser());
+const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function checkUser() {
+      const foundUser = await getUser();
+      setUser(foundUser)
+    }
+    checkUser()
+  }, [])
 ```
 
 **That's it!**

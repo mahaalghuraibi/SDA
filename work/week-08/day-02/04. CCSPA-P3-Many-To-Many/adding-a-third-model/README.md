@@ -98,6 +98,7 @@ path('toys/<int:toy_id>/', ToyDetail.as_view(), name='toy-detail'),
 ```python
 from .models import Cat, Feeding, Toy
 from .serializers import CatSerializer, FeedingSerializer, ToySerializer
+from rest_framework import status, generics # << make sure generics is imported!
 
 class ToyIndex(generics.ListCreateAPIView):
   serializer_class = ToySerializer
@@ -286,6 +287,7 @@ export default function ToyFormPage({ createToy, editToy, deleteToy }) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (editToy && id || deleteToy && id) getAndSetDetail()
         async function getAndSetDetail() {
           try {
               const toyDetail = await toyAPI.show(id);
@@ -296,7 +298,7 @@ export default function ToyFormPage({ createToy, editToy, deleteToy }) {
               setFormData(initialState);
               setCurrToy(null);
           }
-        if (editToy || deleteToy && id) getAndSetDetail()
+        }
     }, [id])
 
     function handleChange(evt) {

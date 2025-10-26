@@ -130,7 +130,7 @@ We want to be able to display all feedings related to a specific cat. This means
 
 ```jsx
 import catCone from "../../assets/images/cat-cone.svg";
-import catOniGirl from "../../assets/images/cat-onigirl.svg";
+import catOniGirl from "../../assets/images/cat-onigiri.svg";
 import kittyKabob from "../../assets/images/kitty-kabob.svg";
 
 // APIs

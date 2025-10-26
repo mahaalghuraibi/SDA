@@ -103,7 +103,7 @@ Our next step is to setup our User Interface to be able to view our Cats, store 
    
 `CatIndexPage.jsx`
 ```jsx
-import { useState } from "React";
+import { useState } from "react";
 // other imports here
 
 export default function CatIndexPage() {
@@ -257,7 +257,7 @@ export default function CatIndexPage() {
 
 `cat-api.js`
 ```js
-import { sendRequest } from "./sendRequest";
+import sendRequest from "./sendRequest";
 const url = "/cats/"
 
 export async function index() {
@@ -309,10 +309,9 @@ Because we are working with two different origins - one application (frontend) i
 [Django CORS Headers Docs](https://pypi.org/project/django-cors-headers/)
 
 First item of business is to install the 'corsheaders' package in our backend:
-1. `exit` your pipenv shell if you have not yet
-2. `pipenv install django-cors-headers`
-3. your Pipfile should now display: `django-cors-headers = "*"`
-4. Let's add `corsheaders` into our `installed apps` in `settings.py`
+1. `pipenv install django-cors-headers`
+2. your Pipfile should now display: `django-cors-headers = "*"`
+3. Let's add `corsheaders` into our `installed apps` in `settings.py`
 
 `settings.py`
 ```python
@@ -375,7 +374,7 @@ from .views import Home, Cats
 
 urlpatterns = [
   path('', Home.as_view(), name='home'),
-  path('/cats/', Cats.as_view(), name='cat-index'),
+  path('cats/', Cats.as_view(), name='cat-index'),
 ]
 ```
 

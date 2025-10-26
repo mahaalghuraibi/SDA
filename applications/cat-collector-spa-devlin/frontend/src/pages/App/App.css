@@ -1,42 +1,135 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+main.home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100%;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+main.home > section {
+    width: 100%;
+    padding: 10px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header-logo-container.home {
+    display: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.logo-container {
+    max-width: 375px;
 }
 
-.card {
-  padding: 2em;
+.home-cat-container {
+    width: 80%;
 }
 
-.read-the-docs {
-  color: #888;
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+
+.login h1 {
+    font-size: clamp(3.2rem, 3vw, 4.8rem);
+    margin: 10px 0;
+}
+
+.login > p {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 14px 0 0px;
+}
+
+.login label {
+    font-size: var(--font-reg);
+    margin-bottom: 6px;
+}
+
+.login input {
+    font-size: var(--font-l);
+    padding: 2px 4px;
+}
+
+.login .btn {
+    align-self: flex-end;
+    margin-right: 0;
+    margin-top: 16px;
+}
+
+/******* FORMS!! ********/
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-container > p > * {
+  margin-right: 5px;
+}
+
+.form-container > p > label {
+  font-size: large;
+}
+
+.form-container > table {
+  padding: 0 40px;
+  width: 100%;
+  border-spacing: 0 20px;
+}
+
+.form-container > table > tbody > tr > th {
+  text-align: left;
+  padding: 6px 20px 0 0;
+  font-weight: normal;
+  vertical-align: top;
+  font-size: var(--font-reg);
+}
+
+.form-container > table > tbody > tr > td {
+  max-width: 60%;
+}
+
+.form-container > table > tbody > tr > td > * {
+  width: 100%;
+  padding: 2px 4px;
+  font-size: var(--font-l);
+}
+
+.form-container > table > tbody > tr > td > textarea {
+  height: calc(4 * var(--font-l) + 8px);
+  font-family: inherit;
+}
+
+.form-container > .btn.end {
+  align-self: flex-end;
+  margin-right: 40px;
+}
+
+@media only screen and (min-width: 768px) {
+    main.home {
+        justify-content: space-around;
+    }
+
+    main.home > section {
+        width: 40%;
+    }
+
+    .login {
+        border: var(--borders);
+        padding: 20px;
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--card-box-shadow);
+        width: 100%;
+    }
+
+    .logo-container {
+        max-width: 520px;
+    }
 }

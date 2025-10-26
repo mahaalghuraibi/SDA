@@ -2,11 +2,11 @@
 
 ![Cat Wave](./assets/cat-wave.png)
 
-**Learning objective:** By the end of this lesson, learners will be able to login, signup, and validate a `User` within the Django Rest Framework system as well as setup these functionalities in the front end as well. Not that we have two separate entities, front and band ends, we will need to account for both sides! So let's get started!
+**Learning objective:** By the end of this lesson, learners will be able to login, signup, and validate a `User` within the Django Rest Framework system as well as setup these functionalities in the front end as well. Now that we have two separate entities, front and back ends, we will need to account for both sides! So let's get started!
 
 ## Setup
 
-We will be working with a different approach to web Authentication. The `Json Web Token` or `JWT` is a base64 encoded URL napproach of representing `claims` or pieces of information between two different parties (front and back ends). The idea is that the format allows us to share sensitive information like passwords, username / email, etc. in a format that does not expose that information directly to the general public. Keep in mind this information is **NOT** encrypted.
+We will be working with a different approach to web Authentication. The `Json Web Token` or `JWT` is a base64 encoded URL approach of representing `claims` or pieces of information between two different parties (front and back ends). The idea is that the format allows us to share sensitive information like passwords, username / email, etc. in a format that does not expose that information directly to the general public. Keep in mind this information is **NOT** encrypted.
 
 ### Django Rest Framework Docs on Authentication
 [DRF Authentication Docs](https://www.django-rest-framework.org/api-guide/authentication/)
@@ -71,13 +71,7 @@ We will need a python package to access the .env file and then configure access 
 
 #### Install `python-dotenv`
 Let's start by installing the package. 
-Which pip are you working with?...
-- `pip --version` or `pip3 --version`
-
-IF you are working with `python`:
-- `pip install python-dotenv`
-IF you are working with `python3`:
-- `pip3 install python-dotenv`
+- `pipenv install python-dotenv`
 
 #### CREATE .ENV
 Once the package is installed we can create the .env
@@ -146,7 +140,7 @@ We will need three separate view functions to handle all user based functionalit
 
 - ONE => User Login
 - TWO => User Signup / Registration
-- Three => User Verification
+- THREE => User Verification
 
 We will take care of signup in this first step today.
 
@@ -163,18 +157,23 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 # User Registration
 class CreateUserView(generics.CreateAPIView):
-  queryset = User.objects.all()
-  serializer_class = UserSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-  def create(self, request, *args, **kwargs):
-    try:
-      response = super().create(request, *args, **kwargs)
-      user = User.objects.get(username=response.data['username'])
-      refresh = RefreshToken.for_user(user)
-      content = {'refresh': str(refresh), 'access': str(refresh.access_token), 'user': response.data }
-      return Response(content, status=status.HTTP_201_CREATED)
-    except Exception as err:
-      return Response({ 'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def create(self, request, *args, **kwargs):
+        try:
+            serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.save()
+            refresh = RefreshToken.for_user(user)
+            data = {
+        	    'refresh': str(refresh),
+        	    'access': str(refresh.access_token),
+        	    'user': UserSerializer(user).data
+            }
+            return Response(data, status=status.HTTP_201_CREATED)
+        except Exception as err:
+            return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 ```
 
 **A RefreshToken is a long-lived token used to obtain a new access token after the current one expires, without requiring the user to log in again.**
@@ -464,10 +463,29 @@ import SignupPage from '../SignupPage/SignupPage';
       <Navbar user={user} setUser={setUser} />
     </ul>
 
-    // add new signup route / page
-    <Routes>
-        <Route path="/signup" element={<SignupPage user={user} setUser={setUser} />}/>
-    </Routes>
+    // ADD NEW SIGNUP ROUTE, UPDATE ROUTES BASED ON USER LOGED IN
+      <Routes>
+        {user ? <>
+          <Route path="/home"                      element={<HomePage />}/>
+          <Route path="/about"                     element={<AboutPage />} />
+          <Route path="/cats"                      element={<CatIndexPage />} />
+          <Route path="/cats/new"                  element={<CatFormPage createCat={true} />} />
+          <Route path="/cats/edit/:id"             element={<CatFormPage editCat={true}   />}/>
+          <Route path="/cats/confirm_delete/:id"   element={<CatFormPage deleteCat={true} />}/>
+          <Route path="/cats/:catId"               element={<CatDetailPage />} />
+          <Route path="/toys"                      element={<ToyIndexPage />} />
+          <Route path="/toys/new"                  element={<ToyFormPage createToy={true} />} />
+          <Route path="/toys/edit/:id"             element={<ToyFormPage editToy={true}   />}/>
+          <Route path="/toys/confirm_delete/:id"   element={<ToyFormPage deleteToy={true} />}/>
+          <Route path="/toys/:id"                  element={<ToyDetailPage />} />
+          <Route path="/*"                         element={<Navigate to="/home"/>}/>
+        </> : <>
+          <Route path="/home"                      element={<HomePage />}/>
+          <Route path="/about"                     element={<AboutPage />} />
+          <Route path="/signup"                    element={<SignupPage user={user} setUser={setUser} />}/>
+          <Route path="/*"                         element={<Navigate to="/home"/>}/>
+        </>}
+      </Routes>
 
 
 ```

@@ -18,7 +18,7 @@ SO - where do we go to add a new model!?
 ```py
 # cat model above
 class Photo(models.Model):
-    url = models.CharField(max_length=250)
+    url = models.TextField()
     title = models.CharField(max_length=250)
     created_at = models.DateField(auto_now_add=True) 
     updated_at = models.DateField(auto_now=True)
@@ -82,19 +82,31 @@ class CatSerializer(serializers.ModelSerializer):
 class PhotoDetail(APIView):
   serializer_class = PhotoSerializer
 
-  def post(self, request, cat_id):
-    try:
-      serializer = self.serializer_class(data=request.data)
-      if serializer.is_valid():
-        existing_photo = Photo.objects.filter(cat=cat_id).first()
-        if existing_photo:
-          existing_photo.delete()
-        cat = get_object_or_404(Cat, id=cat_id)
-        serializer.save(cat=cat)
-        return Response(CatSerializer(cat).data, status=status.HTTP_200_OK)
-      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as err:
-        return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+class PhotoDetail(APIView):
+	serializer_class = PhotoSerializer
+
+	def post(self, request, cat_id):
+		try:
+			# Set Cat ID for Photo
+			data = request.data.copy()
+			data["cat"] = int(cat_id)
+
+			#  Find Existing Photo and Delete if exists
+			existing_photo = Photo.objects.filter(cat=cat_id)
+			if existing_photo:
+				existing_photo.delete()
+
+			# Create Serializer Instance and Validate
+			serializer = self.serializer_class(data=data)
+			if serializer.is_valid():
+				cat = get_object_or_404(Cat, id=cat_id)
+				serializer.save()
+				return Response(CatSerializer(cat).data, status=status.HTTP_200_OK)
+			print(serializer.errors)
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		except Exception as err:
+			print(str(err))
+			return Response({'error': str(err)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 ```
 
 ## Add the `add_photo` URL route..
@@ -123,8 +135,8 @@ export function addPhoto(catId, formData) {
 ```jsx
 <section className="detail-cat-container">
     // add this to top of the cat-container, other items below
-    <div className="cat-img">
-        { catDetail.photo.url
+    <div className="detail-cat-img">
+        { catDetail.photo?.url
             ? <img src={catDetail.photo.url} alt={`A photo of ${catDetail.name}`} className="usr-img" />
             : <img src={skaterCat} alt="A skater boy cat" />
         }
@@ -159,12 +171,12 @@ export default function AddPhotoForm({ cat, addPhoto }) {
         <h3>Change { cat.name }'s photo</h3>
         <form onSubmit={handleSubmit} autocomplete="off">   
             <p>
-              <label for="id_url">Url:</label>
-              <input value={formData.url} type="text" name="url" maxLength="50" required    id="id_url" onChange={handleChange}/>
+              <label htmlFor="id_url">Url:</label>
+              <input value={formData.url} type="text" name="url" required    id="id_url" onChange={handleChange}/>
             </p>
             <p>
-              <label for="id_title">Title:</label>
-              <input value={formData.title} type="text" name="title" maxLength="50" required    id="id_title" onChange={handleChange}/>
+              <label htmlFor="id_title">Title:</label>
+              <input value={formData.title} type="text" name="title" maxLength="250" required    id="id_title" onChange={handleChange}/>
             </p>
             <button type="submit" class="btn submit">Add Photo</button>
         </form>
